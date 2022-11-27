@@ -15,7 +15,3 @@ db.once('open', () => console.log('Connected to Database'))
 app.listen(3000, () => console.log('Server Started on 3000'))
 
 app.use(express.json()) //JSON data for backend
-
-app.get("/", (req, res) => {
-    return res.json('Hello World')
-})
