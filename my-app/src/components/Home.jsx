@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 const drawerWidth = 240;
-const navItems = ['Home', 'Account', 'Blank'];
+const navItems = ['Home', 'Account'];
 
 export default function Home(props) {
     const { window } = props;
@@ -28,7 +28,7 @@ export default function Home(props) {
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
             <Typography variant="h6" sx={{ my: 2 }}>
-                MUI
+                Fullstack Webapp
             </Typography>
             <Divider />
             <List>
@@ -63,7 +63,7 @@ export default function Home(props) {
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     >
-                        MUI
+                        Fullstack Webapp
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item) => (
@@ -94,6 +94,8 @@ export default function Home(props) {
             <Box component="main" sx={{ p: 3 }}>
                 <Toolbar />
                 <Typography>
+
+
 
                 </Typography>
             </Box>
