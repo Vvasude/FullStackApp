@@ -11,17 +11,17 @@ router.get("/login/", async (req, res) => {
 
   try {
     const decodedKey = await admin.auth().verifyIdToken(token); //Firebase Auth
-    const filter = { user_ID: decodedKey.user_ID };
 
     if (!decodedKey) {
       return res.status(505).json({ message: "Not Authorized" });
     } else {
+      const filter = { user_ID: decodedKey.user_id };
       const userExists = await user.findOne(filter);
 
       if (!userExists) {
         newUserData(decodedKey, req, res);
       } else {
-        return res.send("Need to update existing user");
+        updateUserData(decodedKey, req, res);
       }
     }
   } catch (error) {
@@ -44,6 +44,26 @@ const newUserData = async (decodedKey, req, res) => {
   try {
     const savedUser = await newUser.save();
     res.status(200).send({ user: savedUser });
+  } catch (error) {
+    res.status(400).send({ success: false, msg: error });
+  }
+};
+
+//Function to update existing user data
+const updateUserData = async (decodedKey, req, res) => {
+  const filter = { user_ID: decodedKey.user_id };
+  const options = {
+    upsert: true,
+    new: true,
+  };
+
+  try {
+    const updatedUser = await user.findOneAndUpdate(
+      filter,
+      { authTime: decodedKey.auth_time },
+      options
+    );
+    res.status(200).send({ user: updatedUser });
   } catch (error) {
     res.status(400).send({ success: false, msg: error });
   }
