@@ -50,7 +50,6 @@ export default function NavBar(props) {
 
 
 
-
     return (
         <Box sx={{ display: 'flex' }}>
             <AppBar component="nav">
