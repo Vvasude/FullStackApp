@@ -47,5 +47,6 @@
   "description": "Personal Music app",
   "main": "app.js",
   "author": "Varnesh.V",
-  "license": "MIT"
+  "license": "MIT",
+  "proxy": "http://localhost:4000"
 }

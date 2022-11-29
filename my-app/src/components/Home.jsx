@@ -17,6 +17,8 @@ import Button from '@mui/material/Button';
 const drawerWidth = 240;
 const navItems = ['Home', 'Account'];
 
+
+
 export default function Home(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -95,12 +97,16 @@ export default function Home(props) {
                 <Toolbar />
                 <Typography>
 
-
+                    {/* Create all html file here and learn how to make html into
+                jsx components  */}
 
                 </Typography>
             </Box>
         </Box>
     );
+
+
+
 }
 
 Home.propTypes = {
