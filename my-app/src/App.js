@@ -1,7 +1,7 @@
 import { getAuth } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { Home, Login } from "./components";
+import { Home, Login, SignUp } from "./components";
 import { app } from "./config/firebase.config";
 
 const App = () => {
@@ -23,7 +23,8 @@ const App = () => {
         //If auth state false, redirect to login
         setAuth(false);
         window.localStorage.setItem("auth", "false");
-        navigate("/login");
+        //navigate("/login");
+        window.localStorage.setItem("auth", "processing");
       }
     });
   }, []);
@@ -32,7 +33,8 @@ const App = () => {
     <div className="App">
       <Routes>
         <Route path="/login/" element={<Login setAuth={setAuth} />} />
-        <Route path="/home*" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/signup" element={<SignUp setAuth={false} />} />
       </Routes>
     </div>
   );

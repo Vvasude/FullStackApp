@@ -53,11 +53,8 @@ export default function SignInSide({setAuth}) {
             userCredentials.getIdToken().then((token) => {
               console.log(token);
             });            
-            navigate("/", {replace: true});
-          } else { //Redirect to login if auth state is false
-            setAuth(false);
-            navigate("/login");
-          }
+            navigate("/home", {replace: true});
+          } 
         });
       }
     })
@@ -65,7 +62,7 @@ export default function SignInSide({setAuth}) {
 
   useEffect(() => { //Redirect to homepage if auth state is true
     if (window.localStorage.getItem("auth") === "true") {
-      navigate("/", {replace: true})
+      //navigate("/home", {replace: true})
     }
   }, [])
 
@@ -145,7 +142,7 @@ export default function SignInSide({setAuth}) {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href='signup' variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
