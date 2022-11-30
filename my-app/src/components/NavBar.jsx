@@ -106,8 +106,11 @@ export default function NavBar(props) {
             <Box component="main" sx={{ p: 3 }}>
                 <Toolbar />
                 <Typography>
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
                 </Typography>
             </Box>
         </Box>
