@@ -23,8 +23,8 @@ const App = () => {
         //If auth state false, redirect to login
         setAuth(false);
         window.localStorage.setItem("auth", "false");
-        navigate("/login");
-        window.localStorage.setItem("auth", "processing");
+        //
+        //window.localStorage.setItem("auth", "processing");
       }
     });
   }, []);
@@ -33,7 +33,7 @@ const App = () => {
     <div className="App">
       <Routes>
         <Route path="/login/" element={<Login setAuth={setAuth} />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/*" element={<Home />} />
         <Route path="/signup" element={<SignUp setAuth={false} />} />
       </Routes>
     </div>

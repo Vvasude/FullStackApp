@@ -12,15 +12,20 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
+
+
+const initialState = { firstName: '', lastName: '', email: '', password: ''}
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit">
         Your Website
       </Link>{' '}
-      {new Date().getFullYear()}
+      {new Date().getFullYear()}``
       {'.'}
     </Typography>
   );
@@ -29,14 +34,32 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const [formData, setFormData] = useState(initialState);
+  const navigate = useNavigate();
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const inputData = new FormData(event.currentTarget);
+    
+    fetch("/localUsers/signup",{
+      method: "POST",
+      headers: { "Content-type": "application/json"},
+      body: JSON.stringify(inputData)
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.success === "false"){
+      alert(JSON.stringify(data.msg))
+      } else{
+        navigate("/login", {replace: true});
+      }
+    })
   };
+
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value })
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -67,6 +90,7 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -77,6 +101,8 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  onChange={handleChange}
+
                 />
               </Grid>
               <Grid item xs={12}>
@@ -87,6 +113,8 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={handleChange}
+
                 />
               </Grid>
               <Grid item xs={12}>
@@ -98,12 +126,8 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  onChange={handleChange}
+
                 />
               </Grid>
             </Grid>
@@ -115,7 +139,7 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
                 <Link href="login" variant="body2">
                   Already have an account? Sign in

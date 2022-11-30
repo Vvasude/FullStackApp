@@ -9,11 +9,13 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import GoogleButton from 'react-google-button'
-
+import { useState } from 'react';
 import { app } from '../config/firebase.config'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import {useNavigate} from 'react-router-dom'
 import { useEffect } from 'react';
+
+const initialState = { email: '', password: ''}
 
 function Copyright(props) {
   return (
@@ -32,14 +34,33 @@ export default function SignInSide({setAuth}) {
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
 
+  const [formData, setFormData] = useState(initialState);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const inputData = new FormData(event.currentTarget);
+    console.log(JSON.stringify(inputData))
+    
+    fetch("/localUsers/signin",{
+      method: "POST",
+      headers: { "Content-type": "application/json"},
+      body: JSON.stringify(inputData)
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.success === "false"){
+      alert(JSON.stringify(data.msg))
+      } else{
+        navigate("/home", {replace: true});
+      }
+    })
+    
+
   };
+
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value })
+  }
 
   const googleSignIn = async () => {
     await signInWithPopup(firebaseAuth, provider)
@@ -111,6 +132,7 @@ export default function SignInSide({setAuth}) {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={handleChange}
               />
               <TextField
                 margin="normal"
@@ -121,6 +143,7 @@ export default function SignInSide({setAuth}) {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={handleChange}
               />
               <Button
                 type="submit"

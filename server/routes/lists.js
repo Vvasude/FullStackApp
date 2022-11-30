@@ -83,7 +83,9 @@ router.delete("/delete/:id", async (req, res) => {
     if (data) {
       return res.status(200).send(data); //Data shows how many items were deleted along with timestamps
     } else {
-      return res.status(400).send({ success: false, msg: "Requested List not Found" });
+      return res
+        .status(400)
+        .send({ success: false, msg: "Requested List not Found" });
     }
   }
 });
