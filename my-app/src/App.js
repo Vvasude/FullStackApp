@@ -23,7 +23,7 @@ const App = () => {
         //If auth state false, redirect to login
         setAuth(false);
         window.localStorage.setItem("auth", "false");
-        //navigate("/login");
+        navigate("/login");
         window.localStorage.setItem("auth", "processing");
       }
     });
