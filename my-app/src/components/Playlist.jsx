@@ -1,6 +1,7 @@
 import react from 'react'
 import NavBar from './NavBar'
 import { Typography } from '@mui/material';
+import List from './List'
 
 
 const Playlist = () => {
@@ -8,9 +9,10 @@ const Playlist = () => {
     return (
         <div className="test">
         <NavBar />
-        <Typography variant='h3' paddingBottom={2}>
+        <Typography variant='h3' paddingBottom={0}>
             Your Playlists
         </Typography>
+        <List />
         </div>
     )
 }
