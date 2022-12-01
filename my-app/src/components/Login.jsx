@@ -15,36 +15,21 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import {useNavigate} from 'react-router-dom'
 import { useEffect } from 'react';
 
-const initialState = { email: '', password: ''}
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-        FullStackMusicPlayer
-      {' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 export default function SignInSide({setAuth}) {
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState(initialState);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const inputData = new FormData(event.currentTarget);
-    console.log(JSON.stringify(inputData))
+    let formDataObject = Object.fromEntries(inputData.entries())
+    let formDataString = JSON.stringify(formDataObject)
     
     fetch("/localUsers/signin",{
       method: "POST",
-      headers: { "Content-type": "application/json"},
-      body: JSON.stringify(inputData)
+      headers: { "Content-type": "application/json", "Accept": "application.json"},
+      body: formDataString
     })
     .then((res) => res.json())
     .then((data) => {
@@ -57,10 +42,6 @@ export default function SignInSide({setAuth}) {
     
 
   };
-
-  const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value })
-  }
 
   const googleSignIn = async () => {
     await signInWithPopup(firebaseAuth, provider)
@@ -132,7 +113,6 @@ export default function SignInSide({setAuth}) {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={handleChange}
               />
               <TextField
                 margin="normal"
@@ -143,7 +123,6 @@ export default function SignInSide({setAuth}) {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={handleChange}
               />
               <Button
                 type="submit"
@@ -158,19 +137,14 @@ export default function SignInSide({setAuth}) {
               />
               <Grid container
                 sx={{ mt: 3, mb: 3 }}
+                justifyContent="center"
               >
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
                 <Grid item>
                   <Link href='signup' variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>

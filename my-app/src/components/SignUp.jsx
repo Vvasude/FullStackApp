@@ -12,40 +12,24 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-
-
-const initialState = { firstName: '', lastName: '', email: '', password: ''}
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}``
-      {'.'}
-    </Typography>
-  );
-}
 
 const theme = createTheme();
 
 export default function SignUp() {
-  const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
 
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const inputData = new FormData(event.currentTarget);
+    let formDataObject = Object.fromEntries(inputData.entries())
+    let formDataString = JSON.stringify(formDataObject)
     
     fetch("/localUsers/signup",{
       method: "POST",
       headers: { "Content-type": "application/json"},
-      body: JSON.stringify(inputData)
+      body: formDataString
     })
     .then((res) => res.json())
     .then((data) => {
@@ -56,10 +40,6 @@ export default function SignUp() {
       }
     })
   };
-
-  const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value })
-  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -90,7 +70,6 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
-                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -101,7 +80,6 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
-                  onChange={handleChange}
 
                 />
               </Grid>
@@ -113,7 +91,6 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  onChange={handleChange}
 
                 />
               </Grid>
@@ -126,7 +103,6 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  onChange={handleChange}
 
                 />
               </Grid>
@@ -148,7 +124,6 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );

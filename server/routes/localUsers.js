@@ -7,51 +7,45 @@ router.get("/getOne/", async (req, res) => {
   const filter = { email: req.body.email };
 
   const data = await localUser.findOne(filter);
+  const string = "testpassword";
 
-  if (data) {
-    return res.json(data);
+  const dehashpass = await bcrypt.compare(string, data.password);
+
+  if (dehashpass) {
+    return res.json(dehashpass);
   } else {
     return res.json("Could not be Found");
   }
 });
 
 router.post("/signin", async (req, res) => {
-  const inputCredentials = {
-    email: req.body.email,
-    password: req.body.password,
-  };
+  const filter = { email: req.body.email };
 
-  try {
-    const userCount = await localUser.countDocuments(inputCredentials.email);
-    if (userCount == 0) {
-      return res
-        .status(400)
-        .send({ success: "false", msg: "User does not exist" });
-    }
-    const existingUser = await localUser.findOne(inputCredentials.email);
-
-    const passwordAuth = await bcrypt.compare(
-      inputCredentials.password,
-      existingUser.password
-    );
-    if (!passwordAuth) {
-      return res
-        .status(400)
-        .send({ sucess: "false", msg: "Invalid Credentials" });
-    }
-
-    const token = jwt.sign(
-      {
-        email: existingUser.email,
-        id: existingUser._id,
-      },
-      "dev",
-      { expiresIn: "1h" }
-    );
-    res.status(200).send({ success: existingUser, data: token });
-  } catch (error) {
-    return res.status(500).send({ success: "false", msg: error });
+  const existingUser = await localUser.findOne(filter);
+  if (!existingUser) {
+    return res.status(400).send({ success: "false", msg: "User doesnt exist" });
   }
+
+  const passwordCheck = await bcrypt.compare(
+    req.body.password,
+    existingUser.password
+  );
+
+  if (!passwordCheck) {
+    return res
+      .status(400)
+      .send({ success: "false", msg: "Invalid Credentials" });
+  }
+
+  const token = jwt.sign(
+    {
+      email: existingUser.email,
+      id: existingUser._id,
+    },
+    "dev",
+    { expiresIn: "1h" }
+  );
+  return res.status(200).send({ user: existingUser, token: token });
 });
 
 router.post("/signup", async (req, res) => {
@@ -63,7 +57,9 @@ router.post("/signup", async (req, res) => {
   };
 
   try {
-    const existingUser = await localUser.countDocuments(inputCredentials.email);
+    const existingUser = await localUser.countDocuments({
+      email: req.body.email,
+    });
     if (existingUser > 0) {
       return res
         .status(400)
