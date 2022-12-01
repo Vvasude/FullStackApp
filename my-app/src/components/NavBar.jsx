@@ -14,9 +14,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {Link} from 'react-router-dom';
+import Dropdown from './Dropdown';
 
 const drawerWidth = 240;
-const navItems = ['Home', 'Playlists', 'Account'];
+const navItems = ['Home', 'Playlists'];
 
 export default function NavBar(props) {
     const { window } = props;
@@ -68,13 +69,16 @@ export default function NavBar(props) {
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item) => (
-                            <Link to={"/"+item}>
+                            <Link to={"/"+item}
+                            style={{textDecoration: 'none'}}
+                            >
                             <Button key={item} sx={{ color: '#fff' }}>
                                 {item}
                             </Button>
                             </Link>
                         ))}
                     </Box>
+                    <Dropdown />
                 </Toolbar>
             </AppBar>
             <Box component="nav">

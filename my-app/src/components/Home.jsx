@@ -1,7 +1,6 @@
 import { Button, Typography } from '@mui/material';
 import React from 'react'
 import NavBar from './NavBar'
-import StickyFooter from './StickyFooter';
 
 const Home = () => {
     const testFetch = () => {
@@ -19,7 +18,6 @@ const Home = () => {
             Hello World
         </Typography>
         <button onClick={testFetch}>Hello World</button>
-        <StickyFooter />
         </div>
     )
 }
