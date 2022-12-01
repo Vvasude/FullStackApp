@@ -30,15 +30,21 @@ export default function NavBar(props) {
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
             <Typography variant="h6" sx={{ my: 2 }}>
-                Fullstack Webapp
+                Fullstack MusicApp
             </Typography>
             <Divider />
             <List>
                 {navItems.map((item) => (
                     <ListItem key={item} disablePadding>
-                        <ListItemButton sx={{ textAlign: 'center' }}>
-                            <ListItemText primary={item} />
-                        </ListItemButton>
+                        <Link to={"/"+item}
+                        style={{textDecoration: 'none'}}
+                        >
+                            <ListItemButton 
+                            sx={{ textAlign: 'center', color: '#000000' }} 
+                            >
+                                <ListItemText primary={item} />
+                            </ListItemButton>
+                        </Link>
                     </ListItem>
                 ))}
             </List>
@@ -65,7 +71,7 @@ export default function NavBar(props) {
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     >
-                        Fullstack Webapp
+                        Fullstack MusicApp
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item) => (

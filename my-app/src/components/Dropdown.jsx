@@ -25,7 +25,7 @@ export default function FadeMenu() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        sx={{ color: '#fff' }}      
+        sx={{ color: 'inherit' }}      
         >
         Dashboard
       </Button>
@@ -43,7 +43,7 @@ export default function FadeMenu() {
             <Link 
             to={"/account"}
             style={{textDecoration: 'none'}}
-            sx={{ color: '#fff' }}
+            sx={{ color: '#000000' }}
             >
                 My Account
             </Link>

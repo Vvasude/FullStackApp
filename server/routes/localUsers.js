@@ -23,7 +23,7 @@ router.post("/signin", async (req, res) => {
 
   const existingUser = await localUser.findOne(filter);
   if (!existingUser) {
-    return res.status(400).send({ success: "false", msg: "User doesnt exist" });
+    return res.status(400).send({ success: "false", msg: "User Not Found" });
   }
 
   const passwordCheck = await bcrypt.compare(
