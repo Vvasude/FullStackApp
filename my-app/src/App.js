@@ -17,14 +17,12 @@ const App = () => {
     firebaseAuth.onAuthStateChanged((userCredentials) => {
       if (userCredentials) {
         userCredentials.getIdToken().then((token) => {
-          console.log(token);
+          console.log("Google Token: " + token);
         });
       } else {
         //If auth state false, redirect to login
         setAuth(false);
         window.localStorage.setItem("auth", "false");
-        //
-        //window.localStorage.setItem("auth", "processing");
       }
     });
   }, []);
@@ -32,10 +30,10 @@ const App = () => {
   return (
     <div className="App">
       <Routes>
-        <Route path="/login/" element={<Login setAuth={setAuth} />} />
+        <Route path="/Login/" element={<Login setAuth={setAuth} />} />
         <Route path="/*" element={<Home />} />
-        <Route path="/signup" element={<SignUp setAuth={false} />} />
-        <Route path="/account" element={<Account />} />
+        <Route path="/Signup" element={<SignUp setAuth={false} />} />
+        <Route path="/Account" element={<Account />} />
         <Route path="/playlists" element={<Playlist />} />
       </Routes>
     </div>

@@ -37,6 +37,7 @@ export default function SignInSide({setAuth}) {
       alert(JSON.stringify(data.msg))
       } else{
         navigate("/home", {replace: true});
+        localStorage.setItem('profile', data.user.email)
       }
     })
     
@@ -53,7 +54,7 @@ export default function SignInSide({setAuth}) {
         firebaseAuth.onAuthStateChanged((userCredentials) => {
           if (userCredentials) { //If exists, redirect to homepage
             userCredentials.getIdToken().then((token) => {
-              console.log(token);
+              localStorage.setItem('profile', userCredentials.email)
             });            
             navigate("/home", {replace: true});
           } 

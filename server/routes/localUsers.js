@@ -3,18 +3,25 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const localUser = require("../models/localUser");
 
-router.get("/getOne/", async (req, res) => {
-  const filter = { email: req.body.email };
+router.get("/credentials/", async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    let decodedData;
 
-  const data = await localUser.findOne(filter);
-  const string = "testpassword";
+    if (!token) {
+      return res.status(400).send({ msg: "Token Credentials Not Found" });
+    }
+    decodedData = jwt.verify(token, "dev");
+    if (!decodedData) {
+      return res.status(400).send({ msg: "Could Not Verify Token Request" });
+    }
 
-  const dehashpass = await bcrypt.compare(string, data.password);
+    const filter = { email: decodedData.email };
+    const foundUser = await localUser.findOne(filter);
 
-  if (dehashpass) {
-    return res.json(dehashpass);
-  } else {
-    return res.json("Could not be Found");
+    return res.status(200).send({ success: "true", data: foundUser });
+  } catch (error) {
+    return res.status(500).send(error);
   }
 });
 
@@ -74,6 +81,7 @@ router.post("/signup", async (req, res) => {
       name: nameString,
       email: inputCredentials.email,
       password: hashedPassword,
+      role: "member",
     });
 
     const token = jwt.sign(

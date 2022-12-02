@@ -2,6 +2,23 @@ const router = require("express").Router();
 const admin = require("../config/firebase.config");
 const user = require("../models/user");
 
+router.get("/credentials", async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const decodedKey = await admin.auth().verifyIdToken(token);
+
+    if (!decodedKey) {
+      return res.status(400).send({ msg: "Token Credentials Not Found" });
+    }
+    const filter = { email: decodedKey.email };
+    const foundUser = await user.findOne(filter);
+
+    return res.status(200).send({ success: "true", data: foundUser });
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+});
+
 router.get("/login/", async (req, res) => {
   if (!req.headers.authorization) {
     return res.status(500).send({ message: "Invalid Token" });

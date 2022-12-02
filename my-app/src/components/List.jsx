@@ -66,9 +66,19 @@ export default function List() {
         <div className="test">
             <NavBar />
             <input type="text" id="trackSearch" placeholder="Search" />
-            <button id="button" onClick={clearSearch}>
+            <button 
+            id="button" 
+            onClick={clearSearch}
+            >
                 Search
             </button>
+            <input 
+            type="image" 
+            src="https://variety.com/wp-content/uploads/2020/06/youtube-logo.png?w=681&h=383&crop=1" 
+            width={"100px"}
+            height={"50px"}
+            style={{'borderRadius' : '5px'}}
+            />
             {/* Button to start dynamic add /}
             {/ Dynamically add list */}
             <ul id="playlist"></ul>

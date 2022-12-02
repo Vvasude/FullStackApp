@@ -17,6 +17,10 @@ const localUserSchema = mongoose.Schema(
     id: {
       type: String,
     },
+    role: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
