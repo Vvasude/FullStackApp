@@ -7,3 +7,4 @@ export { default as Account } from "./Account";
 export { default as Dropdown } from "./Dropdown";
 export { default as Playlist } from "./Playlist";
 export { default as List } from "./List";
+export { default as FormDialog } from "./FormDialog";

@@ -4,12 +4,10 @@ import NavBar from './NavBar'
 
 const Home = () => {
     const testFetch = () => {
-        fetch('/genres/getAll')
-        .then((res) => res.json())
-        .then((data) => { 
-        alert(JSON.stringify(data))
-    })
-}
+        const element = this.input
+        console.log(element)
+
+    }
 
     return (
         <div className="test">
@@ -17,7 +15,7 @@ const Home = () => {
         <Typography variant='h3' paddingBottom={2}>
             Hello World
         </Typography>
-        <button onClick={testFetch}>Hello World</button>
+        <Button onClick={testFetch}>Test</Button>
         </div>
     )
 }
