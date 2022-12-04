@@ -40,8 +40,6 @@ export default function SignInSide({setAuth}) {
         localStorage.setItem('profile', data.user.email)
       }
     })
-    
-
   };
 
   const googleSignIn = async () => {

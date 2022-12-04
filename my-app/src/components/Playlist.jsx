@@ -1,22 +1,38 @@
-import react from 'react'
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 import NavBar from './NavBar'
-import { Typography } from '@mui/material';
-import List from './List'
-import FormDialog from './FormDialog';
+import TrackSearch from './TrackSearch'
+import ListSearch from './ListSearch'
+import CreateList from './CreateList';
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
-const Playlist = () => {
-
-    return (
-        <div className="test">
-        <NavBar />
-        <Typography variant='h3' paddingBottom={0}>
-            Your Playlists
-        </Typography>
-        <FormDialog />
-        <List />
-        </div>
-    )
+export default function Playlist() {
+  return (
+    <div>
+    <NavBar />
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={2}>
+        <Grid item xs={5}>
+          <TrackSearch />
+        </Grid>
+        <Grid item xs={5}>
+          <ListSearch />
+        </Grid>
+        <Grid item xs={2} justifyContent="flex-end" alignItems="center">
+            <CreateList />
+        </Grid>
+      </Grid>
+    </Box>
+    </div>
+  );
 }
-
-export default Playlist

@@ -6,5 +6,5 @@ export { default as SignUp } from "./SignUp";
 export { default as Account } from "./Account";
 export { default as Dropdown } from "./Dropdown";
 export { default as Playlist } from "./Playlist";
-export { default as List } from "./List";
-export { default as FormDialog } from "./FormDialog";
+export { default as TrackSearch } from "./TrackSearch";
+export { default as CreateList } from "./CreateList";

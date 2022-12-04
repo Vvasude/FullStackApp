@@ -8,20 +8,20 @@ router.get("/getAll/", async (req, res) => {
 
   const data = await list.find(filter);
   if (data.length > 0) {
-    return res.status(200).send({ success: true, list: data });
+    return res.status(200).send(data);
   } else {
     return res.status(400).send({ success: false, msg: "Nothing Found" });
   }
 });
 
-//Save New List with Name, also save with tracks if desired
+//Save New List with Name, also save with tracks if desireds
 router.post("/save", async (req, res) => {
   const filter = { list_title: req.body.list_title };
 
   //Check if name already exists in lists
   const checkExists = await list.countDocuments(filter);
   if (checkExists > 0) {
-    return res.status(400).send({ success: false, msg: "List already exists" });
+    return res.status(404).send({ success: false, msg: "List already exists" });
   } else {
     //Establish new object to be saved as list
     const newList = list({
@@ -100,7 +100,7 @@ router.get("/getOne/:id", async (req, res) => {
   if (data) {
     return res.status(200).send(data);
   } else {
-    return res.status(400).send({ msg: "List Not Found" });
+    return res.status(400).send({ success: "false", msg: "List Not Found" });
   }
 });
 
