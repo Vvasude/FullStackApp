@@ -1,7 +1,15 @@
 import { getAuth } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { Account, Home, Login, SignUp, Playlist } from "./components";
+import {
+  Account,
+  Home,
+  Login,
+  SignUp,
+  Playlist,
+  AboutUs,
+  CreateList,
+} from "./components";
 import { app } from "./config/firebase.config";
 
 const App = () => {
@@ -35,6 +43,8 @@ const App = () => {
         <Route path="/Signup" element={<SignUp setAuth={false} />} />
         <Route path="/Account" element={<Account />} />
         <Route path="/playlists" element={<Playlist />} />
+        <Route path="/Aboutus" element={<AboutUs />} />
+        <Route path="/Createlist" element={<CreateList />} />
       </Routes>
     </div>
   );

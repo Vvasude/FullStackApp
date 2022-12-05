@@ -1,23 +1,22 @@
 import React from "react"
 import "./style.css"
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { useState } from "react";
+
 
 var selectedTracks = [];
 var allSearchTracks = [];
 
 export default function TrackSearch() {
-    const updateSelection = () => {
-        let selectedTracks = []; //Clear Selected
-        let ul = document.getElementById('tracklist');
-        let boxes = ul.getElementsByTagName("INPUT");
-        //Pull Ticked Values
-        for(let x = 0; x < boxes.length; x++){
-            if(boxes[x].checked) {
-                selectedTracks.push(boxes[x].value)
-            }
-        }
-        //Remove Dupes
-        allSearchTracks = [...new Set(selectedTracks)]
-        console.log(allSearchTracks)
+    const [inputValue, setInputValue] = useState('')
+
+    const reloadWindow = () => {
+        window.location.reload()
+    }
+
+    const clearStorage = () => {
+        window.localStorage.setItem("track_IDS", "")
     }
 
     const clearSearch = () => {
@@ -31,7 +30,10 @@ export default function TrackSearch() {
     }
     //Function to fetch search request and display results accordingly
     const fetchTracks = () => {
-        let input = document.getElementById('trackSearch').value;
+        let input = inputValue;
+        if(input.length == 0){
+            alert("Invalid Search Query")
+        }
         var trackArr = [];
         const ul = document.getElementById('tracklist');
         ul.innerHtml = "";
@@ -63,12 +65,22 @@ export default function TrackSearch() {
                     }
 
                     let checkBox = ul.appendChild(document.createElement("INPUT"))
-                    checkBox.type = "checkbox";
-                    checkBox.id = "tick";
+                    checkBox.type = "image";
+                    checkBox.src = 'https://cdn.iconscout.com/icon/free/png-256/add-playlist-1779822-1513987.png'
+                    checkBox.style.width = "25px"
+                    checkBox.style.height = "25px"
                     checkBox.value = trackArr[0][i].track_id;
+                    checkBox.addEventListener("click", (e) => {
+                        let addTrack = e.currentTarget.value;
+                        allSearchTracks.push(addTrack)
+                        allSearchTracks = [...new Set(allSearchTracks)]
+                        console.log(JSON.stringify(allSearchTracks))
+                        window.localStorage.setItem("track_IDS", allSearchTracks)
+                    })
 
                     let p = ul.appendChild(document.createElement("p"))
                     p.innerHTML = "Add to Playlist: "
+                    p.style.paddingBottom = "1px"
                     p.appendChild(checkBox)
 
                     let inpt = li.appendChild(document.
@@ -78,6 +90,7 @@ export default function TrackSearch() {
                     inpt.style.width = '100px';
                     inpt.style.height = '50px';
                     inpt.style.borderRadius = '5px'
+                    inpt.style.display = 'inline-block'
                     inpt.stringURL = str //Set btm params to be used in arrow function
                     inpt.addEventListener("click", (e) => { //Search on Youtube
                         let str = e.currentTarget.stringURL;
@@ -85,7 +98,7 @@ export default function TrackSearch() {
                     });
 
 
-                    li.appendChild(document.createElement("br"));
+                    //li.appendChild(document.createElement("br"));
 
                 }
             });
@@ -93,14 +106,16 @@ export default function TrackSearch() {
     
     return (
         <div>
-            <input type="text" id="trackSearch" placeholder="Search Tracks" />
-            <button 
-            id="button" 
-            onClick={clearSearch}
-            >
-                Search
-            </button>
-            <button onClick={updateSelection}>Confirm Selected Tracks</button>
+            <TextField 
+                id="standard-basic" 
+                label="Search Tracks" 
+                variant="standard" 
+                onChange={(e) => setInputValue(e.target.value)}
+            />            
+            <Button variant="contained" onClick={clearSearch}>Search</Button>
+            <Button variant="outlined" onClick={reloadWindow}>Confirm Tracks </Button>
+            <Button variant="outlined" onClick={clearStorage}>Clear Selection</Button>
+
             {/* Button to start dynamic add /}
             {/ Dynamically add list */}
             <ul id="tracklist"></ul>

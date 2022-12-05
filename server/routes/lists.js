@@ -27,6 +27,8 @@ router.post("/save", async (req, res) => {
     const newList = list({
       list_title: req.body.list_title,
       list_trackIDS: req.body.list_trackIDS,
+      description: req.body.description,
+      visibility: req.body.visibility,
     });
     try {
       const savedList = await newList.save();

@@ -1,5 +1,5 @@
 import React from 'react'
-import "./style.css"
+import Button from '@mui/material/Button'
 
 export default function ListSearch() {
     const updateSelection = () => {
@@ -46,13 +46,8 @@ export default function ListSearch() {
 
     return (
         <div>
-            <button 
-            id="button" 
-            onClick={clearSearch}
-            >
-                View Lists
-            </button>
-            <button>Confirm selected List</button>
+            <Button variant="contained" onClick={clearSearch}>View Lists</Button>
+            <Button variant="outlined">Confirm selected List</Button>
             <ul id="playlist"></ul>
         </div>
     )

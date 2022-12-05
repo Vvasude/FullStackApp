@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Typography } from '@mui/material';
-import "/Users/varnesh/Documents/GitHub/FullStackApp/my-app/src/startPage.css"
+import './startPage.css'
 
 export default function AboutUs() {
 
