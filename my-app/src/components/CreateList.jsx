@@ -19,26 +19,51 @@ import NavBar from './NavBar';
 import { useState } from 'react';
 
 const theme = createTheme();
+let trackNums = []
 
 export default function CreateList() {
   const navigate = useNavigate();
   const [listName, setListName] = useState('')
   const [description, setDescription] = useState('')
   var visibility = "false";
-  
 
+  const convertTracks = () => {
+    let trackString = window.localStorage.getItem("track_IDS")
+    trackString = trackString.replace(/['"]+/g, '')
+    let trackStringArray = trackString.split(',')
+    for(let x = 0; x < trackStringArray.length; x++){
+      trackNums[x] = parseInt(trackStringArray[x])
+    }
+    window.localStorage.setItem("track_IDS", trackNums)
+  }
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const inputData = new FormData(event.currentTarget);
     let formDataObject = Object.fromEntries(inputData.entries())
+    convertTracks();
+
     formDataObject.visibility = visibility
-    formDataObject.list_trackIDS = window.localStorage.getItem("track_IDS")
+    formDataObject.list_trackIDS = trackNums
     formDataObject.email = window.localStorage.getItem("profile")
     let formDataString = JSON.stringify(formDataObject)
-    console.log(formDataString);
-
-    //When Success is true, reset localstorage saved fields for input fields
-    
+  
+    fetch("/lists/save", {
+      method: "POST",
+      headers: { "Content-type": "application/json", "Accept": "application.json"},
+      body: formDataString
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.success == "false"){
+        alert(JSON.stringify(data.msg))
+      } else { //Route back to playlists on success, clear localstorage to reset form data for next
+        navigate("/playlists", {replace: true})
+        localStorage.setItem("track_IDS", '')
+        localStorage.setItem("list_title", '')
+        localStorage.setItem("description", '')
+      }
+    })    
   };
 
   const clearTrackList = () => {

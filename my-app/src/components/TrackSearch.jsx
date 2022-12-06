@@ -12,11 +12,12 @@ export default function TrackSearch() {
     const [inputValue, setInputValue] = useState('')
 
     const reloadWindow = () => {
+        if(allSearchTracks.length == 0){
+            alert("Must Select Track IDs")
+            window.localStorage.setItem("list_trackIDS", '')
+        } else {
         window.location.reload()
-    }
-
-    const clearStorage = () => {
-        window.localStorage.setItem("track_IDS", "")
+        }
     }
 
     const clearSearch = () => {
@@ -74,7 +75,6 @@ export default function TrackSearch() {
                         let addTrack = e.currentTarget.value;
                         allSearchTracks.push(addTrack)
                         allSearchTracks = [...new Set(allSearchTracks)]
-                        console.log(JSON.stringify(allSearchTracks))
                         window.localStorage.setItem("track_IDS", allSearchTracks)
                     })
 
@@ -114,7 +114,6 @@ export default function TrackSearch() {
             />            
             <Button variant="contained" onClick={clearSearch}>Search</Button>
             <Button variant="outlined" onClick={reloadWindow}>Confirm Tracks </Button>
-            <Button variant="outlined" onClick={clearStorage}>Clear Selection</Button>
 
             {/* Button to start dynamic add /}
             {/ Dynamically add list */}
