@@ -11,6 +11,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import { DeleteList } from '.';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -39,9 +40,7 @@ export default function Playlist() {
           <Button variant="contained" href="updatelist" endIcon={<EditIcon />} fullWidth>
           Edit List
           </Button>
-          <Button variant="contained" href="deletelist" endIcon={<DeleteIcon />} fullWidth>
-          Delete List
-          </Button>
+          <DeleteList />
           <Button variant="contained" href="ratelist" endIcon={<RateReviewIcon />} fullWidth>
           Rate Playlist
           </Button>

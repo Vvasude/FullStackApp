@@ -10,3 +10,4 @@ export { default as TrackSearch } from "./TrackSearch";
 export { default as AboutUs } from "./AboutUs";
 export { default as CreateList } from "./CreateList";
 export { default as UpdateList } from "./UpdateList";
+export { default as DeleteList } from "./DeleteList";

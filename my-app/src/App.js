@@ -27,7 +27,6 @@ const App = () => {
     firebaseAuth.onAuthStateChanged((userCredentials) => {
       if (userCredentials) {
         userCredentials.getIdToken().then((token) => {
-          console.log(token);
           loginHeader.append("Content-Type", "application/json");
           loginHeader.append("Accept", "application.json");
           loginHeader.append("Authorization", "Bearer " + token);

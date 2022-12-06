@@ -25,7 +25,7 @@ export default function CreateList() {
   const navigate = useNavigate();
   const [listName, setListName] = useState('')
   const [description, setDescription] = useState('')
-  var visibility = "false";
+  const [visibility, setVisibility] = useState('false')
 
   const convertTracks = () => {
     let trackString = window.localStorage.getItem("list_trackIDS")
@@ -85,15 +85,6 @@ export default function CreateList() {
     window.localStorage.setItem("list_title", listName)
     window.localStorage.setItem("description", description)
   }
-
-  const handleChange = (e) => {
-    let isChecked = e.target.checked;
-    if(isChecked){
-      visibility = "true";
-      } else {
-        visibility = "false"
-      }
-  };
 
   return (
     <div>
@@ -185,7 +176,9 @@ export default function CreateList() {
                 <FormControlLabel 
                 control={<Checkbox />} 
                 label="Public List?" 
-                onChange={handleChange}
+                onChange={(event, newVisibility) => {
+                  setVisibility(newVisibility);
+                  }}
               />
               </Grid>
             </Grid>

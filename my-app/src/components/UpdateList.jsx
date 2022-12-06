@@ -27,11 +27,11 @@ let options = []
 
 export default function UpdateList() {
   const navigate = useNavigate();
-  const [headerName, setHeaderName] = useState('')
   const [listName, setListName] = useState('');
   const [description, setDescription] = useState('');
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
+  const [visibility, setVisibility] = useState('false')
 
   useEffect(() => {
     fetch('/lists/getAll/')
@@ -42,8 +42,6 @@ export default function UpdateList() {
       }
     })
   }, [])
-
-  var visibility = "false";
 
   const populateTracks = () => {
     window.localStorage.setItem("list_title", value)
@@ -81,8 +79,24 @@ export default function UpdateList() {
     formDataObject.list_trackIDS = trackNums
     formDataObject.email = window.localStorage.getItem("profile")
     let formDataString = JSON.stringify(formDataObject)
-    alert(formDataString)
-    alert(window.localStorage.getItem("list_title"))
+    let listName = encodeURI(window.localStorage.getItem("list_title"))
+
+    fetch('/lists/update/' + listName, {
+      method: 'put',
+      headers: { "Content-type": "application/json", "Accept": "application.json"},
+      body: formDataString
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.success == "false"){
+        alert(JSON.stringify(data.msg))
+      } else { //Route back to playlists on success, clear localstorage to reset form data for next
+        navigate("/playlists", {replace: true})
+        localStorage.setItem("list_trackIDS", '')
+        localStorage.setItem("list_title", '')
+        localStorage.setItem("description", '')
+      }
+    })    
 
   };
 
@@ -105,15 +119,6 @@ export default function UpdateList() {
     window.localStorage.setItem("list_title", listName)
     window.localStorage.setItem("description", description)
   }
-
-  const handleChange = (e) => {
-    let isChecked = e.target.checked;
-    if(isChecked){
-      visibility = "true";
-      } else {
-        visibility = "false"
-      }
-  };
 
   return (
     <div>
@@ -237,8 +242,10 @@ export default function UpdateList() {
                 <FormControlLabel 
                 control={<Checkbox />} 
                 label="Public List?" 
-                onChange={handleChange}
-              />
+                onChange={(event, newVisibility) => {
+                  setVisibility(newVisibility);
+                  }}
+                />
               </Grid>
             </Grid>
             <Button

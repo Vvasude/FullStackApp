@@ -82,7 +82,7 @@ router.put("/update/:id", async (req, res) => {
 
 //Delete requested list if it exists
 router.delete("/delete/:id", async (req, res) => {
-  const filter = { list_title: req.params.id };
+  const filter = { list_title: decodeURI(req.params.id) };
 
   //Check if it exists within collection
   const checkExists = await list.countDocuments(filter);
