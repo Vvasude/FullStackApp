@@ -44,9 +44,9 @@ export default function AboutUs() {
                     <div className="card">
 
                         <div className="container">
-                            <h2>Moon</h2>
+                            <h2>Visindu Biyanwila</h2>
                             <p className="title">Designer</p>
-                            <p>Likes 3316 with a passion</p>
+                            <p>Also loves JDM cars</p>
                             <p>john@example.com</p>
 
                         </div>
