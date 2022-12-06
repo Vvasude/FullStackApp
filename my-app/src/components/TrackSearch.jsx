@@ -3,6 +3,7 @@ import "./style.css"
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useState } from "react";
+import { useEffect } from "react";
 
 
 var selectedTracks = [];
@@ -12,6 +13,7 @@ export default function TrackSearch() {
     const [inputValue, setInputValue] = useState('')
 
     const reloadWindow = () => {
+        allSearchTracks = window.localStorage.getItem("list_trackIDS")
         if(allSearchTracks.length == 0){
             alert("Must Select Track IDs")
             window.localStorage.setItem("list_trackIDS", '')
@@ -19,6 +21,11 @@ export default function TrackSearch() {
         window.location.reload()
         }
     }
+
+    useEffect(() => {
+        //Placeholder, Function to update without clearing existing values from memory
+        //allSearchTracks = window.localStorage.getItem("list_trackIDS")
+    }, [])
 
     const clearSearch = () => {
         const ul = document.getElementById('tracklist')
@@ -72,10 +79,10 @@ export default function TrackSearch() {
                     checkBox.style.height = "25px"
                     checkBox.value = trackArr[0][i].track_id;
                     checkBox.addEventListener("click", (e) => {
-                        let addTrack = e.currentTarget.value;
+                        let addTrack = e.currentTarget.value;                        
                         allSearchTracks.push(addTrack)
                         allSearchTracks = [...new Set(allSearchTracks)]
-                        window.localStorage.setItem("track_IDS", allSearchTracks)
+                        window.localStorage.setItem("list_trackIDS", allSearchTracks)
                     })
 
                     let p = ul.appendChild(document.createElement("p"))

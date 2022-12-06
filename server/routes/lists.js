@@ -60,6 +60,8 @@ router.put("/update/:id", async (req, res) => {
     const updateFields = {
       list_title: req.body.list_title,
       list_trackIDS: req.body.list_trackIDS,
+      description: req.body.description,
+      visibility: req.body.visibility,
     };
     //Insert as new list to be sent back as response
     const options = {
@@ -103,9 +105,8 @@ router.delete("/delete/:id", async (req, res) => {
 //Search for one list based on request
 router.get("/getOne/:id", async (req, res) => {
   const filter = { list_title: req.params.id };
-  const select = { list_title: 1, list_trackIDS: 1, _id: 0 }; //Pull desired fields from collection
 
-  const data = await list.findOne(filter, select);
+  const data = await list.findOne(filter);
 
   if (data) {
     return res.status(200).send(data);

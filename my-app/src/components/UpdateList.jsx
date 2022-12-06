@@ -13,19 +13,53 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'
-import Switch from '@mui/material/Switch';
 import TrackSearch from './TrackSearch';
 import NavBar from './NavBar';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/material/Autocomplete';
+import { useEffect } from 'react';
 
 const theme = createTheme();
 let trackNums = []
 
-export default function CreateList() {
+let options = []
+
+export default function UpdateList() {
   const navigate = useNavigate();
-  const [listName, setListName] = useState('')
-  const [description, setDescription] = useState('')
+  const [headerName, setHeaderName] = useState('')
+  const [listName, setListName] = useState('');
+  const [description, setDescription] = useState('');
+  const [value, setValue] = useState(options[0]);
+  const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    fetch('/lists/getAll/')
+    .then((res) => res.json())
+    .then((data) => {
+      for(let x = 0; x < data.length; x++){
+        options[x] = data[x].list_title
+      }
+    })
+  }, [])
+
   var visibility = "false";
+
+  const populateTracks = () => {
+    window.localStorage.setItem("list_title", value)
+
+    fetch('/lists/getone/' + value)
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.list_trackIDS.includes(null)){
+        window.localStorage.setItem("list_trackIDS", '')
+      } else {
+        window.localStorage.setItem("list_trackIDS", data.list_trackIDS)
+      }
+      window.localStorage.setItem("description", data.description)
+      window.location.reload()
+    })
+  }
 
   const convertTracks = () => {
     let trackString = window.localStorage.getItem("list_trackIDS")
@@ -36,7 +70,7 @@ export default function CreateList() {
     }
     window.localStorage.setItem("list_trackIDS", trackNums)
   }
-
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const inputData = new FormData(event.currentTarget);
@@ -47,23 +81,9 @@ export default function CreateList() {
     formDataObject.list_trackIDS = trackNums
     formDataObject.email = window.localStorage.getItem("profile")
     let formDataString = JSON.stringify(formDataObject)
-  
-    fetch("/lists/save", {
-      method: "POST",
-      headers: { "Content-type": "application/json", "Accept": "application.json"},
-      body: formDataString
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      if(data.success == "false"){
-        alert(JSON.stringify(data.msg))
-      } else { //Route back to playlists on success, clear localstorage to reset form data for next
-        navigate("/playlists", {replace: true})
-        localStorage.setItem("list_trackIDS", '')
-        localStorage.setItem("list_title", '')
-        localStorage.setItem("description", '')
-      }
-    })    
+    alert(formDataString)
+    alert(window.localStorage.getItem("list_title"))
+
   };
 
   const clearTrackList = () => {
@@ -108,7 +128,7 @@ export default function CreateList() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 2,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -119,7 +139,7 @@ export default function CreateList() {
             <PlaylistAddRoundedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Create New List
+            Update Existing List
           </Typography>
           <Grid container spacing={6} justifyContent="space-evenly" alignItems="center">
             <Grid item xs={6}>
@@ -129,11 +149,44 @@ export default function CreateList() {
             <Button onClick={clearTrackList} variant="contained">Clear Tracks</Button>
             </Grid>
           </Grid>
-          <Typography component="h1" variant="body1" paddingTop={'20px'}>
+          <Typography component="h1" variant="body1" paddingTop={'20px'} paddingBottom={'10px'}>
             Remember To Hit Save To Prevent Input Refreshing!
           </Typography>
+          <Button onClick={populateTracks} variant="contained">Refresh List Data</Button>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
+                <Grid item xs={12}>
+                <Autocomplete
+                  fullWidth
+                  disablePortal
+                  value={value}
+                  onChange={(event, newValue) => {
+                  setValue(newValue);
+                  window.localStorage.setItem("list_title", newValue)
+                  }}
+                  inputValue={inputValue}
+                  onInputChange={(event, newInputValue) => {
+                  setInputValue(newInputValue);
+                  }}
+                  id="controllable-states-demo"
+                  options={options}
+                  sx={{ width: 300 }}
+                  renderInput={(params) => <TextField {...params} label="Select List Below" />}
+                />
+                </Grid>
+                <Grid item xs={12}>
+              <TextField
+                  disabled
+                  name="header_value"
+                  required
+                  fullWidth
+                  id="header_value"
+                  label="Selected List"
+                  autoFocus
+                  onInput={saveName}
+                  defaultValue={window.localStorage.getItem("list_title")}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
@@ -141,11 +194,10 @@ export default function CreateList() {
                   required
                   fullWidth
                   id="list_title"
-                  label="List Title"
+                  label="Updated List Title"
                   autoFocus
                   onInput={saveName}
                   defaultValue={window.localStorage.getItem("list_title")}
-
                 />
               </Grid>
               <Grid item xs={12}>

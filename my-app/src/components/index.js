@@ -9,3 +9,4 @@ export { default as Playlist } from "./Playlist";
 export { default as TrackSearch } from "./TrackSearch";
 export { default as AboutUs } from "./AboutUs";
 export { default as CreateList } from "./CreateList";
+export { default as UpdateList } from "./UpdateList";
