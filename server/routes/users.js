@@ -60,7 +60,7 @@ const newUserData = async (decodedKey, req, res) => {
 
   try {
     const savedUser = await newUser.save();
-    res.status(200).send({ user: savedUser });
+    res.status(200).send({ success: true, user: savedUser });
   } catch (error) {
     res.status(400).send({ success: false, msg: error });
   }
@@ -80,7 +80,7 @@ const updateUserData = async (decodedKey, req, res) => {
       { authTime: decodedKey.auth_time },
       options
     );
-    res.status(200).send({ user: updatedUser });
+    res.status(200).send({ success: true, user: updatedUser });
   } catch (error) {
     res.status(400).send({ success: false, msg: error });
   }

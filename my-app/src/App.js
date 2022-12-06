@@ -16,6 +16,7 @@ import { app } from "./config/firebase.config";
 const App = () => {
   const firebaseAuth = getAuth(app);
   const navigate = useNavigate();
+  var loginHeader = new Headers();
 
   const [auth, setAuth] = useState(
     false || window.localStorage.getItem("auth") === "true"
@@ -26,7 +27,21 @@ const App = () => {
     firebaseAuth.onAuthStateChanged((userCredentials) => {
       if (userCredentials) {
         userCredentials.getIdToken().then((token) => {
-          console.log("Google Token: " + token);
+          console.log(token);
+          loginHeader.append("Content-Type", "application/json");
+          loginHeader.append("Accept", "application.json");
+          loginHeader.append("Authorization", "Bearer " + token);
+
+          fetch("/users/login/", {
+            method: "GET",
+            headers: loginHeader,
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.success == false) {
+                alert(data.msg);
+              }
+            });
         });
       } else {
         //If auth state false, redirect to login
