@@ -67,7 +67,16 @@ export default function SignInSide({setAuth}) {
                     alert(data.msg);
                   }
                 });
-              localStorage.setItem('profile', userCredentials.email)
+
+                fetch("/users/credentials", {
+                  method: "GET",
+                  headers: loginHeader,
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                  window.localStorage.setItem('role', data.user.role)
+                })
+              window.localStorage.setItem('profile', userCredentials.email)
             });            
             navigate("/home", {replace: true});
           } 

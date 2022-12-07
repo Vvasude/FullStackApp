@@ -19,7 +19,7 @@ router.get("/credentials/", async (req, res) => {
     const filter = { email: decodedData.email };
     const foundUser = await localUser.findOne(filter);
 
-    return res.status(200).send({ success: "true", data: foundUser });
+    return res.status(200).send({ success: "true", user: foundUser });
   } catch (error) {
     return res.status(500).send(error);
   }

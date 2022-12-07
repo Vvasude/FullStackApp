@@ -10,6 +10,7 @@ import {
   AboutUs,
   CreateList,
   UpdateList,
+  RateList,
 } from "./components";
 import { app } from "./config/firebase.config";
 
@@ -60,7 +61,8 @@ const App = () => {
         <Route path="/playlists" element={<Playlist />} />
         <Route path="/Aboutus" element={<AboutUs />} />
         <Route path="/Createlist" element={<CreateList />} />
-        <Route path="/UpdateList" element={<UpdateList />} />
+        <Route path="/Updatelist" element={<UpdateList />} />
+        <Route path="/Ratelist" element={<RateList />} />
       </Routes>
     </div>
   );

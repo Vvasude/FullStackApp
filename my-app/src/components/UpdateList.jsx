@@ -16,7 +16,6 @@ import { useNavigate } from 'react-router-dom'
 import TrackSearch from './TrackSearch';
 import NavBar from './NavBar';
 import { useState } from 'react';
-import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useEffect } from 'react';
 
@@ -88,7 +87,7 @@ export default function UpdateList() {
     })
     .then((res) => res.json())
     .then((data) => {
-      if(data.success == "false"){
+      if(data.success === "false"){
         alert(JSON.stringify(data.msg))
       } else { //Route back to playlists on success, clear localstorage to reset form data for next
         navigate("/playlists", {replace: true})
@@ -97,7 +96,6 @@ export default function UpdateList() {
         localStorage.setItem("description", '')
       }
     })    
-
   };
 
   const clearTrackList = () => {
