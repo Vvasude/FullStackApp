@@ -17,7 +17,7 @@ import {Link} from 'react-router-dom';
 import Dropdown from './Dropdown';
 
 const drawerWidth = 240;
-const navItems = ['Home', 'Playlists'];
+const navItems = ['Home', 'Playlists', 'Policies'];
 
 export default function NavBar(props) {
     const { window } = props;

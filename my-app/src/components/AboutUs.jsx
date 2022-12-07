@@ -46,7 +46,7 @@ export default function AboutUs() {
                         <div className="container">
                             <h2>Visindu Biyanwila</h2>
                             <p className="title">Designer</p>
-                            <p>Also loves JDM cars</p>
+                            <p>Likes anime</p>
                             <p>john@example.com</p>
 
                         </div>

@@ -12,3 +12,4 @@ export { default as CreateList } from "./CreateList";
 export { default as AcceptableUsePolicy } from "./AcceptableUsePolicy";
 export { default as DMCAPolicy } from "./DMCAPolicy";
 export { default as PrivacyPolicy } from "./PrivacyPolicy";
+export { default as Policies } from "./Policies";

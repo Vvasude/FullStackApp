@@ -1,14 +1,10 @@
 import React from 'react'
-import './startPage.css'
-
-
-
 
 export default function DMCAPolicy() {
-    (
-        <div>
+    return (   
+        <div className ="DMCAPolicy">
             <h1>DMCA Notice and Takedown Policy</h1>
-            
+            <p>Last updated: December 06, 2022</p>
             <p>MusicApp is the owner and operator of website. 
                MusicApp follows the safe harbor provisions of the Digital Millennium Copyright Act (DMCA). 
                 Please refer to Title 17 of the US Code, Section 512 (17 U.S. Code § 512). 
@@ -42,13 +38,6 @@ export default function DMCAPolicy() {
                 <li>Email: john@example.com</li>
                 <li>Phone Number: ###-###-####</li>
             </ul>
-        
-
         </div>
-
-
-
-
     )
 }
-
