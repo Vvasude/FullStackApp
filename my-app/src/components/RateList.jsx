@@ -26,7 +26,7 @@ let options = []
 
 export default function RateList() {
   const navigate = useNavigate();
-  const [rating, setRating] = useState('50')
+  const [rating, setRating] = useState('5')
   const [description, setDescription] = useState('');
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
@@ -46,15 +46,28 @@ export default function RateList() {
    event.preventDefault()
    const inputData = new FormData(event.currentTarget);
    let formDataObject = Object.fromEntries(inputData.entries());
-   formDataObject.list_title = value;
    formDataObject.rating = rating
-   formDataObject.email = window.localStorage.getItem('profile')
    let formDataString = JSON.stringify(formDataObject)
 
-   if(formDataObject.description.length === 0)
+   if(formDataObject.description.length === 0){
     alert("Must Add Description to Rating")
+   } else {
+    fetch('/lists/addRating/' + value, {
+      method: 'PUT',
+      headers: { "Content-type": "application/json", "Accept": "application.json"},
+      body: formDataString
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.success === "false"){
+        alert(data.msg)
+      } else {
+        navigate("/playlists", {replace: true})
+      }
+    })
+   }
 
-   alert(formDataString)
+  
   };
 
   const saveDescription = (event) => {
@@ -63,7 +76,7 @@ export default function RateList() {
   }
 
   function valuetext(value) {
-    return `${value}°C`;
+    return `${value}`;
   }
 
   return (
@@ -137,17 +150,6 @@ export default function RateList() {
                   label="Description "
                   name="description"
                   onInput={saveDescription}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  disabled
-                  inputMode='none'
-                  id="email"
-                  label="Creator"
-                  name="email"
-                  defaultValue={window.localStorage.getItem("profile")}
                 />
               </Grid>
             </Grid>

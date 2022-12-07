@@ -23,10 +23,10 @@ const listSchema = mongoose.Schema(
       required: true,
     },
     rating: {
-      type: String,
+      type: Array,
     },
     comment: {
-      type: String,
+      type: Array,
     },
   },
   { timestamps: true }

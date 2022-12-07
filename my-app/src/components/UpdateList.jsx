@@ -81,7 +81,7 @@ export default function UpdateList() {
     let listName = encodeURI(window.localStorage.getItem("list_title"))
 
     fetch('/lists/update/' + listName, {
-      method: 'put',
+      method: 'PUT',
       headers: { "Content-type": "application/json", "Accept": "application.json"},
       body: formDataString
     })

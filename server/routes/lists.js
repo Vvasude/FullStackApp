@@ -102,6 +102,44 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
+//Update existing list by name, track IDS, or both depending on input
+router.put("/addRating/:id", async (req, res) => {
+  const filter = { list_title: decodeURI(req.params.id) };
+
+  const checkExists = await list.countDocuments(filter);
+  if (checkExists == 0) {
+    return res
+      .status(400)
+      .send({ success: false, msg: "Requested List does not exist" });
+  } else {
+    const foundList = await list.findOne(filter);
+    let ratingArray = foundList.rating;
+    let commentArray = foundList.comment;
+
+    ratingArray.push(req.body.rating);
+    commentArray.push(req.body.description);
+
+    const updateFields = {
+      rating: ratingArray,
+      comment: commentArray,
+    };
+    //Insert as new list to be sent back as response
+    const options = {
+      new: true,
+    };
+    try {
+      const resultList = await list.findOneAndUpdate(
+        filter,
+        updateFields,
+        options
+      );
+      return res.status(200).send(resultList);
+    } catch (error) {
+      return res.status(400).send({ success: false, msg: error });
+    }
+  }
+});
+
 //Search for one list based on request
 router.get("/getOne/:id", async (req, res) => {
   const filter = { list_title: req.params.id };
