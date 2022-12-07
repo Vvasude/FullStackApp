@@ -15,4 +15,4 @@ export { default as DeleteList } from "./DeleteList";
 export { default as RateList } from "./RateList";
 
 export { default as HomeListSearch } from "./HomeListSearch";
-//export { default as RateList } from "./RateList";
+export { default as HomeTrackSearch } from "./HomeTrackSearch";

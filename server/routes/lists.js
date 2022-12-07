@@ -15,11 +15,23 @@ router.get("/getAll/", async (req, res) => {
 });
 
 //Get all public lists
-router.get("/getAllPublic/", async (req, res) => {
+router.get("/getLimitPublic/", async (req, res) => {
   const filter = { visibility: "true" };
   const sort = { updatedAt: -1 };
 
   const data = await list.find(filter).limit(10).sort(sort);
+  if (data.length > 0) {
+    return res.status(200).send(data);
+  } else {
+    return res.status(400).send({ success: false, msg: "Nothing Found" });
+  }
+});
+
+router.get("/getAllPublic/", async (req, res) => {
+  const filter = { visibility: "true" };
+  const sort = { updatedAt: -1 };
+
+  const data = await list.find(filter).sort(sort);
   if (data.length > 0) {
     return res.status(200).send(data);
   } else {

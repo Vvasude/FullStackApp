@@ -25,6 +25,13 @@ router.get("/search/:id", async (req, res) => {
   const searchRequest = req.params.id;
   const filterTrack = { track_title: { $regex: searchRequest, $options: "i" } }; //Search by titles or album
   const filterAlbum = { album_title: { $regex: searchRequest, $options: "i" } };
+  const filterArtist = {
+    artist_name: { $regex: searchRequest, $options: "i" },
+  };
+  const filterGenre = {
+    track_genres: { $regex: searchRequest, $options: "i" },
+  };
+
   const select = {
     track_id: 1,
     album_title: 1,
@@ -35,7 +42,10 @@ router.get("/search/:id", async (req, res) => {
   };
 
   const data = await track
-    .find({ $or: [filterTrack, filterAlbum] }, select)
+    .find(
+      { $or: [filterTrack, filterAlbum, filterArtist, filterGenre] },
+      select
+    )
     .limit(8);
   //$or chooses between both search params
   //limit contains number of results to desired n variable (8 results in this scenario)

@@ -47,7 +47,6 @@ export default function ListSearch() {
     return (
         <div>
             <Button variant="contained" onClick={clearSearch}>View Lists</Button>
-            <Button variant="outlined">Confirm selected List</Button>
             <ul id="playlist"></ul>
         </div>
     )

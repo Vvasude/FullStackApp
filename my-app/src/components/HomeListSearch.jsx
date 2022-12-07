@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '@mui/material/Button'
 
-export default function ListSearch() {
+export default function HomeListSearch() {
     const updateSelection = () => {
     }
 
@@ -20,7 +20,7 @@ export default function ListSearch() {
         const ul = document.getElementById('playlist')
         ul.innerhtml = ""
 
-        fetch('/lists/getAll/')
+        fetch('/lists/getLimitPublic/')
         .then((res) => res.json())
         .then((data) => {
             listArr.push(data)
@@ -47,7 +47,6 @@ export default function ListSearch() {
     return (
         <div>
             <Button variant="contained" onClick={clearSearch}>View Lists</Button>
-            <Button variant="outlined">Confirm selected List</Button>
             <ul id="playlist"></ul>
         </div>
     )
