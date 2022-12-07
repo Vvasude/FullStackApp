@@ -38,7 +38,7 @@ export default function SignInSide({setAuth}) {
       alert(JSON.stringify(data.msg))
       } else{
         navigate("/home", {replace: true});
-        localStorage.setItem('profile', data.user.email)
+        localStorage.setItem('profile', btoa(data.user.email))
       }
     })
   };
@@ -130,6 +130,7 @@ export default function SignInSide({setAuth}) {
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
+                type="email"
                 required
                 fullWidth
                 id="email"

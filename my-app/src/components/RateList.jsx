@@ -33,7 +33,7 @@ export default function RateList() {
   
 
   useEffect(() => {
-    fetch('/lists/getAll/')
+    fetch('/lists/getAllPublic/')
     .then((res) => res.json())
     .then((data) => {
       for(let x = 0; x < data.length; x++){

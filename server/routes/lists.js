@@ -6,7 +6,7 @@ const router = require("express").Router();
 router.get("/getAll/", async (req, res) => {
   const filter = {};
 
-  const data = await list.find(filter);
+  const data = await list.find(filter).limit(20);
   if (data.length > 0) {
     return res.status(200).send(data);
   } else {
