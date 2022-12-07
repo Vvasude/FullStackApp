@@ -30,13 +30,14 @@ export default function AlertDialogSlide() {
   const logOut = () => {
     setOpen(false);
     const firebaseAuth = getAuth(app);
-    
+
     firebaseAuth.signOut()
-    .then(() => {
-      window.localStorage.setItem("auth", "false");
-    }).catch((error) => console.log(error));
-    
-    navigate("/login", {replace : true})
+      .then(() => {
+        window.localStorage.setItem("auth", "false");
+
+      }).catch((error) => console.log(error));
+
+    navigate("/login", { replace: true })
   }
 
   return (
