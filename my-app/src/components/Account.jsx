@@ -7,7 +7,7 @@ function Admin() {
     const ul = document.getElementById('tracklist');
     ul.innerHtml = "";
 
-    fetch('/tracks/getAll')
+    fetch('/users/getAll')
         .then((res) => res.json())
         .then((data) => {
             trackArr.push(data);
@@ -17,12 +17,10 @@ function Admin() {
                 ul.appendChild(li);
 
                 var trackDescription = [
-                    "ID: " + trackArr[0][i].track_id,
-                    "Track: " + trackArr[0][i].track_title,
-                    "By: " + trackArr[0][i].artist_name,
+                    "Name: " + trackArr[0][i].name,
+                    "Email: " + trackArr[0][i].email,
+                    "Role: " + trackArr[0][i].role,
                 ];
-
-
 
                 for (var j = 0; j < trackDescription.length; j++) {
                     li.appendChild(document.createTextNode(trackDescription[j]));
