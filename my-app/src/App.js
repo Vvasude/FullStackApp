@@ -20,7 +20,7 @@ const App = () => {
   var loginHeader = new Headers();
 
   const [auth, setAuth] = useState(
-    false || window.localStorage.getItem("auth") === "true"
+    false || atob(window.localStorage.getItem("auth")) === "true"
   );
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const App = () => {
       } else {
         //If auth state false, redirect to login
         setAuth(false);
-        window.localStorage.setItem("auth", "false");
+        window.localStorage.setItem("auth", btoa("false"));
       }
     });
   }, []);

@@ -76,7 +76,7 @@ export default function UpdateList() {
 
     formDataObject.visibility = visibility
     formDataObject.list_trackIDS = trackNums
-    formDataObject.email = window.localStorage.getItem("profile")
+    formDataObject.email = atob(window.localStorage.getItem("profile"))
     let formDataString = JSON.stringify(formDataObject)
     let listName = encodeURI(window.localStorage.getItem("list_title"))
 
@@ -235,7 +235,7 @@ export default function UpdateList() {
                   id="email"
                   label="Creator"
                   name="email"
-                  defaultValue={window.localStorage.getItem("profile")}
+                  defaultValue={atob(window.localStorage.getItem("profile"))}
                 />
               </Grid>
               <Grid item xs={12}>

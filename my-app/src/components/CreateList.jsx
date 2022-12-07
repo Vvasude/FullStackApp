@@ -45,7 +45,7 @@ export default function CreateList() {
 
     formDataObject.visibility = visibility
     formDataObject.list_trackIDS = trackNums
-    formDataObject.email = window.localStorage.getItem("profile")
+    formDataObject.email = atob(window.localStorage.getItem("profile"))
     let formDataString = JSON.stringify(formDataObject)
   
     fetch("/lists/save", {

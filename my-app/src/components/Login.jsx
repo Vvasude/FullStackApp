@@ -87,7 +87,7 @@ export default function SignInSide({setAuth}) {
   }
 
   useEffect(() => { //Redirect to homepage if auth state is true
-    if (window.localStorage.getItem("auth") === "true") {
+    if (atob(window.localStorage.getItem("auth")) === "true") {
       //navigate("/home", {replace: true})
     }
   }, [])
