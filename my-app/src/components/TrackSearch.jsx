@@ -118,6 +118,7 @@ export default function TrackSearch() {
                 label="Search Tracks" 
                 variant="standard" 
                 onChange={(e) => setInputValue(e.target.value)}
+                inputProps={{maxLength: 40}}
             />            
             <Button variant="contained" onClick={clearSearch}>Search</Button>
             <Button variant="outlined" onClick={reloadWindow}>Confirm Tracks </Button>

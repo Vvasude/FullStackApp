@@ -150,6 +150,7 @@ export default function RateList() {
                   label="Description "
                   name="description"
                   onInput={saveDescription}
+                  inputProps={{maxLength:50}}
                 />
               </Grid>
             </Grid>

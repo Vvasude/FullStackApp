@@ -136,7 +136,7 @@ export default function CreateList() {
                   autoFocus
                   onInput={saveName}
                   defaultValue={window.localStorage.getItem("list_title")}
-
+                  inputProps={{maxLength: 50}}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -159,6 +159,7 @@ export default function CreateList() {
                   name="description"
                   onInput={saveDescription}
                   defaultValue={window.localStorage.getItem("description")}
+                  inputProps={{maxLength: 100}}
                 />
               </Grid>
               <Grid item xs={12}>
