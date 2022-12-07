@@ -2,11 +2,24 @@ const list = require("../models/list");
 
 const router = require("express").Router();
 
-//Get all lists
+//Get All Lists
 router.get("/getAll/", async (req, res) => {
   const filter = {};
 
   const data = await list.find(filter);
+  if (data.length > 0) {
+    return res.status(200).send(data);
+  } else {
+    return res.status(400).send({ success: false, msg: "Nothing Found" });
+  }
+});
+
+//Get all public lists
+router.get("/getAllPublic/", async (req, res) => {
+  const filter = { visibility: "true" };
+  const sort = { updatedAt: -1 };
+
+  const data = await list.find(filter).limit(10).sort(sort);
   if (data.length > 0) {
     return res.status(200).send(data);
   } else {
