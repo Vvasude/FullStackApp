@@ -104,4 +104,18 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+
+router.get("/getAll", async (req, res) => {
+  const filter = {};
+  const select = {name: 1, email: 1, role: 1};
+
+  const data = await localUser.find(filter, select);
+      
+      if(data){
+      return res.json(data);
+  } else{
+      return res.json('Could not be Found');
+  }
+})
+
 module.exports = router;
