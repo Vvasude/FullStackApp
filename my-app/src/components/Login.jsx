@@ -48,7 +48,7 @@ export default function SignInSide({setAuth}) {
     .then((userCredentials) => {
       if(userCredentials){ //If user credentials already exist, set auth true
         setAuth(true);
-        window.localStorage.setItem("auth", "true");
+        window.localStorage.setItem("auth", btoa("true"));
 
         firebaseAuth.onAuthStateChanged((userCredentials) => {
           if (userCredentials) { //If exists, redirect to homepage
@@ -74,15 +74,16 @@ export default function SignInSide({setAuth}) {
                 })
                 .then((res) => res.json())
                 .then((data) => {
-                  window.localStorage.setItem('role', data.user.role)
+                  window.localStorage.setItem('role', btoa(data.user.role))
                 })
-              window.localStorage.setItem('profile', userCredentials.email)
-            });            
+              window.localStorage.setItem('profile', btoa(userCredentials.email))
+            });      
             navigate("/home", {replace: true});
-          } 
+          }
         });
       }
     })
+
   }
 
   useEffect(() => { //Redirect to homepage if auth state is true

@@ -170,7 +170,7 @@ export default function CreateList() {
                   id="email"
                   label="Creator"
                   name="email"
-                  defaultValue={window.localStorage.getItem("profile")}
+                  defaultValue={atob(window.localStorage.getItem("profile"))}
                 />
               </Grid>
               <Grid item xs={12}>
