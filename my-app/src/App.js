@@ -1,6 +1,8 @@
+//imports to use functions
 import { getAuth } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+//import all the components
 import {
   Account,
   Home,
@@ -16,6 +18,7 @@ import {
 } from "./components";
 import { app } from "./config/firebase.config";
 
+//app function to use firbase and authenticate user first
 const App = () => {
   const firebaseAuth = getAuth(app);
   const navigate = useNavigate();
@@ -25,6 +28,8 @@ const App = () => {
     false || atob(window.localStorage.getItem("auth")) === "true"
   );
 
+  //if anything goesd worng with login, alert
+  //that something has gone wrong
   useEffect(() => {
     //On Page Startup
     firebaseAuth.onAuthStateChanged((userCredentials) => {
@@ -33,7 +38,7 @@ const App = () => {
           loginHeader.append("Content-Type", "application/json");
           loginHeader.append("Accept", "application.json");
           loginHeader.append("Authorization", "Bearer " + token);
-
+        //fetch who the user is
           fetch("/users/login/", {
             method: "GET",
             headers: loginHeader,
@@ -54,6 +59,7 @@ const App = () => {
   }, []);
 
   return (
+    //routes to all the pages
     <div className="App">
       <Routes>
         <Route path="/Login/" element={<Login setAuth={setAuth} />} />
