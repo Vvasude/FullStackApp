@@ -12,6 +12,7 @@ import {
   CreateList,
   UpdateList,
   RateList,
+  Policies,
 } from "./components";
 import { app } from "./config/firebase.config";
 
@@ -65,6 +66,7 @@ const App = () => {
         <Route path="/auth/Createlist" element={<CreateList />} />
         <Route path="/auth/Updatelist" element={<UpdateList />} />
         <Route path="/auth/Ratelist" element={<RateList />} />
+        <Route path="/policies" element={<Policies />} />
       </Routes>
     </div>
   );

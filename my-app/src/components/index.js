@@ -17,3 +17,8 @@ export { default as RateList } from "./RateList";
 export { default as HomeListSearch } from "./HomeListSearch";
 export { default as HomeTrackSearch } from "./HomeTrackSearch";
 export { default as GuestPlaylist } from "./GuestPlaylist";
+
+export { default as AcceptableUsePolicy } from "./AcceptableUsePolicy";
+export { default as DMCAPolicy } from "./DMCAPolicy";
+export { default as PrivacyPolicy } from "./PrivacyPolicy";
+export { default as Policies } from "./Policies";
