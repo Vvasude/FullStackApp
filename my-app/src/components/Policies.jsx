@@ -4,7 +4,7 @@ import AcceptableUsePolicy from './AcceptableUsePolicy'
 import DMCAPolicy from './DMCAPolicy'
 import PrivacyPolicy from './PrivacyPolicy'
 
-
+//Export Policies function
 export default function Policies() 
 {
 

@@ -5,21 +5,24 @@ export default function ListSearch() {
     const updateSelection = () => {
     }
 
+    //Clears Search
     const clearSearch = () => {
         const ul = document.getElementById('playlist')
         //Remove All Child Elements from prev. Search before fetching new search 
         while(ul.firstChild){ 
             ul.removeChild(ul.firstChild)
         }
-
         fetchLists();
     }
 
+   
     const fetchLists = () => {
+        //Creates array to store playlists
         var listArr = []
         const ul = document.getElementById('playlist')
         ul.innerhtml = ""
 
+         //Fetchs playlists
         fetch('/lists/getLimitAny/')
         .then((res) => res.json())
         .then((data) => {
@@ -30,12 +33,14 @@ export default function ListSearch() {
                 var li = document.createElement("li")
                 ul.appendChild(li)
 
+                //Populates listArr with info
                 var listDescription = [
                     "Name: " + listArr[0][i].list_title,
                     "Saved Tracks: " + listArr[0][i].list_trackIDS,
                     "description: " + listArr[0][i].description,
                 ]
 
+                //Creates unordered list with info
                 for (var j = 0; j < listDescription.length; j++){
                     li.appendChild(document.createTextNode(listDescription[j]));
                     li.style.display = "";

@@ -86,10 +86,12 @@ const updateUserData = async (decodedKey, req, res) => {
   }
 };
 
+//Gets user info from database
 router.get("/getAll", async (req, res) => {
   const filter = {};
   const select = { name: 1, email: 1, role: 1 };
 
+  //Finds user info
   const data = await user.find(filter, select);
 
   if (data) {
