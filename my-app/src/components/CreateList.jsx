@@ -13,20 +13,22 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'
-import Switch from '@mui/material/Switch';
 import TrackSearch from './TrackSearch';
 import NavBar from './NavBar';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const theme = createTheme();
 let trackNums = []
 
 export default function CreateList() {
   const navigate = useNavigate();
+
+  //Setting Form Variables to Update with UseState
   const [listName, setListName] = useState('')
   const [description, setDescription] = useState('')
   const [visibility, setVisibility] = useState('false')
 
+  //Convert Selected tracks into formData
   const convertTracks = () => {
     let trackString = window.localStorage.getItem("list_trackIDS")
     trackString = trackString.replace(/['"]+/g, '')
@@ -37,6 +39,7 @@ export default function CreateList() {
     window.localStorage.setItem("list_trackIDS", trackNums)
   }
 
+  //Handle Submission data with fetch request
   const handleSubmit = (event) => {
     event.preventDefault();
     const inputData = new FormData(event.currentTarget);
@@ -55,17 +58,19 @@ export default function CreateList() {
     })
     .then((res) => res.json())
     .then((data) => {
-      if(data.success == "false"){
+      if(data.success == "false"){ //If any errors, alert with error message
         alert(JSON.stringify(data.msg))
-      } else { //Route back to playlists on success, clear localstorage to reset form data for next
+      } else { 
+        //Route back to playlists on success, clear localstorage to reset form data for next
         navigate("/playlists", {replace: true})
-        localStorage.setItem("list_trackIDS", '')
+        localStorage.setItem("list_trackIDS", '') //Clear Form Data
         localStorage.setItem("list_title", '')
         localStorage.setItem("description", '')
       }
     })    
   };
 
+  //Clears Added Tracks from Form Data
   const clearTrackList = () => {
     window.localStorage.setItem("list_trackIDS", "")
     window.location.reload();
@@ -135,7 +140,7 @@ export default function CreateList() {
                   label="List Title"
                   autoFocus
                   onInput={saveName}
-                  defaultValue={window.localStorage.getItem("list_title")}
+                  defaultValue={window.localStorage.getItem("list_title")} //Update With Data
                   inputProps={{maxLength: 50}}
                 />
               </Grid>

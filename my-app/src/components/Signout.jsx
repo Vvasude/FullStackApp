@@ -11,6 +11,7 @@ import { app } from '../config/firebase.config'
 import { getAuth } from 'firebase/auth'
 import { useNavigate } from "react-router-dom";
 
+//Transition for sliding dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -27,12 +28,14 @@ export default function AlertDialogSlide() {
     setOpen(false);
   };
 
+  //Function to handle logout process
   const logOut = () => {
     setOpen(false);
     const firebaseAuth = getAuth(app);
     
     firebaseAuth.signOut()
     .then(() => {
+      //Reset stored user data 
       window.localStorage.setItem("auth", btoa("false"));
       window.localStorage.setItem("profile", btoa("You are Not Logged In"))
     }).catch((error) => console.log(error));

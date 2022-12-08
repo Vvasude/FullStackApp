@@ -9,12 +9,11 @@ import ListSearch from './ListSearch'
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import { DeleteList } from '.';
 import { useNavigate } from 'react-router-dom';
 
-
+//Styles Formatting
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -26,6 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Playlist() {
   const navigate = useNavigate();
 
+  //Check user login status on page render, redirect accordingly
     useEffect(() => {
         let loginStatus = atob(window.localStorage.getItem("auth"))
         if(loginStatus === "false"){
