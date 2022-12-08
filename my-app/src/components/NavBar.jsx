@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -13,16 +13,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import {useNavigate} from 'react-router-dom'
 import {Link} from 'react-router-dom';
+import Dropdown from './Dropdown';
 
 const drawerWidth = 240;
-const navItems = ['Home', 'Playlists', 'Account'];
+const navItems = ['Home', 'Playlists','Policies'];
 
 export default function NavBar(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    const navigate = useNavigate();
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -31,15 +30,21 @@ export default function NavBar(props) {
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
             <Typography variant="h6" sx={{ my: 2 }}>
-                Fullstack Webapp
+                Fullstack MusicApp
             </Typography>
             <Divider />
             <List>
                 {navItems.map((item) => (
                     <ListItem key={item} disablePadding>
-                        <ListItemButton sx={{ textAlign: 'center' }}>
-                            <ListItemText primary={item} />
-                        </ListItemButton>
+                        <Link to={"/"+item}
+                        style={{textDecoration: 'none'}}
+                        >
+                            <ListItemButton 
+                            sx={{ textAlign: 'center', color: '#000000' }} 
+                            >
+                                <ListItemText primary={item} />
+                            </ListItemButton>
+                        </Link>
                     </ListItem>
                 ))}
             </List>
@@ -66,17 +71,20 @@ export default function NavBar(props) {
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     >
-                        Fullstack Webapp
+                        Fullstack MusicApp
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item) => (
-                            <Link to={"/"+item}>
+                            <Link to={"/"+item}
+                            style={{textDecoration: 'none'}}
+                            >
                             <Button key={item} sx={{ color: '#fff' }}>
                                 {item}
                             </Button>
                             </Link>
                         ))}
                     </Box>
+                    <Dropdown />
                 </Toolbar>
             </AppBar>
             <Box component="nav">
@@ -104,10 +112,5 @@ export default function NavBar(props) {
             </Box>
         </Box>
     );
-
-
 }
-
-
-
 

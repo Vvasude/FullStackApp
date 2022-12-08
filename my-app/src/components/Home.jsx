@@ -1,25 +1,24 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import React from 'react'
+import AboutUs from './AboutUs';
 import NavBar from './NavBar'
 
 const Home = () => {
     const testFetch = () => {
-        fetch('/genres/getAll')
-        .then((res) => res.json())
-        .then((data) => { 
-        alert(JSON.stringify(data))
-    })
-}
+        const element = this.input
+        console.log(element)
+
+    }
 
     return (
         <div className="test">
-        <NavBar />
-        <button onClick={testFetch}>Hello World</button>
+            <NavBar />
+            <Typography variant='h3' paddingBottom={2}>
+                <AboutUs />
+            </Typography>
+            <Button onClick={testFetch}>Test</Button>
         </div>
     )
 }
 
 export default Home
-
-
-

@@ -9,36 +9,38 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import GoogleButton from 'react-google-button'
-
+import { useState } from 'react';
 import { app } from '../config/firebase.config'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import {useNavigate} from 'react-router-dom'
 import { useEffect } from 'react';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-        FullStackMusicPlayer
-      {' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 export default function SignInSide({setAuth}) {
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
+  var loginHeader = new Headers();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const inputData = new FormData(event.currentTarget);
+    let formDataObject = Object.fromEntries(inputData.entries())
+    let formDataString = JSON.stringify(formDataObject)
+    
+    fetch("/localUsers/signin",{
+      method: "POST",
+      headers: { "Content-type": "application/json", "Accept": "application.json"},
+      body: formDataString
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.success === "false"){
+      alert(JSON.stringify(data.msg))
+      } else{
+        navigate("/home", {replace: true});
+        localStorage.setItem('profile', btoa(data.user.email))
+      }
+    })
   };
 
   const googleSignIn = async () => {
@@ -46,27 +48,48 @@ export default function SignInSide({setAuth}) {
     .then((userCredentials) => {
       if(userCredentials){ //If user credentials already exist, set auth true
         setAuth(true);
-        window.localStorage.setItem("auth", "true");
+        window.localStorage.setItem("auth", btoa("true"));
 
         firebaseAuth.onAuthStateChanged((userCredentials) => {
           if (userCredentials) { //If exists, redirect to homepage
             userCredentials.getIdToken().then((token) => {
-              console.log(token);
-            });            
-            navigate("/", {replace: true});
-          } else { //Redirect to login if auth state is false
-            setAuth(false);
-            navigate("/login");
+              loginHeader.append("Accept", "application/json");
+              loginHeader.append("Authentication", "Bearer Token");
+              loginHeader.append("Authorization", "Bearer " + token);
+
+              fetch("/users/login/", {
+                method: "GET",
+                headers: loginHeader,
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data.success == false) {
+                    alert(data.msg);
+                  }
+                });
+
+                fetch("/users/credentials", {
+                  method: "GET",
+                  headers: loginHeader,
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                  window.localStorage.setItem('role', btoa(data.user.role))
+                })
+              window.localStorage.setItem('profile', btoa(userCredentials.email))
+            });      
+            navigate("/home", {replace: true});
           }
         });
       }
     })
+
   }
 
-  useEffect(() => { //Redirect to homepage if auth state is true
-    if (window.localStorage.getItem("auth") === "true") {
-      navigate("/", {replace: true})
-    }
+  useEffect(() => { //When entering login page, sign out user
+    window.localStorage.setItem("auth", btoa("false"))
+    window.localStorage.setItem("profile", btoa("You are Not Logged In"))
+
   }, [])
 
 
@@ -107,6 +130,7 @@ export default function SignInSide({setAuth}) {
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
+                type="email"
                 required
                 fullWidth
                 id="email"
@@ -138,19 +162,19 @@ export default function SignInSide({setAuth}) {
               />
               <Grid container
                 sx={{ mt: 3, mb: 3 }}
+                justifyContent="center"
               >
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
+                <Grid item paddingBottom={'10px'}>
+                  <Link href='signup' variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
+                <Grid item>
+                  <Link href='home' variant="body2">
+                    {"Return to About Us Page"}
+                  </Link>
+                </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>

@@ -23,6 +23,8 @@ app.get("/", (req, res) => {
 const authRoutes = require("./routes/users");
 app.use("/users/", authRoutes);
 
+const localUserRoutes = require("./routes/localUsers");
+app.use("/localusers", localUserRoutes);
 //Genre Routes
 const genresRoutes = require("./routes/genres");
 app.use("/genres/", genresRoutes);

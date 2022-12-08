@@ -9,6 +9,25 @@ const listSchema = mongoose.Schema(
     },
     list_trackIDS: {
       type: Array,
+      required: true,
+    },
+    description: {
+      type: String,
+      default: "No Description",
+    },
+    visibility: {
+      type: String,
+      default: "false",
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    rating: {
+      type: Array,
+    },
+    comment: {
+      type: Array,
     },
   },
   { timestamps: true }

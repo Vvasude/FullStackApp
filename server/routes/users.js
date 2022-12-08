@@ -2,6 +2,23 @@ const router = require("express").Router();
 const admin = require("../config/firebase.config");
 const user = require("../models/user");
 
+router.get("/credentials", async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const decodedKey = await admin.auth().verifyIdToken(token);
+
+    if (!decodedKey) {
+      return res.status(400).send({ msg: "Token Credentials Not Found" });
+    }
+    const filter = { email: decodedKey.email };
+    const foundUser = await user.findOne(filter);
+
+    return res.status(200).send({ success: "true", user: foundUser });
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+});
+
 router.get("/login/", async (req, res) => {
   if (!req.headers.authorization) {
     return res.status(500).send({ message: "Invalid Token" });
@@ -43,7 +60,7 @@ const newUserData = async (decodedKey, req, res) => {
 
   try {
     const savedUser = await newUser.save();
-    res.status(200).send({ user: savedUser });
+    res.status(200).send({ success: true, user: savedUser });
   } catch (error) {
     res.status(400).send({ success: false, msg: error });
   }
@@ -63,10 +80,23 @@ const updateUserData = async (decodedKey, req, res) => {
       { authTime: decodedKey.auth_time },
       options
     );
-    res.status(200).send({ user: updatedUser });
+    res.status(200).send({ success: true, user: updatedUser });
   } catch (error) {
     res.status(400).send({ success: false, msg: error });
   }
 };
+
+router.get("/getAll", async (req, res) => {
+  const filter = {};
+  const select = { name: 1, email: 1, role: 1 };
+
+  const data = await user.find(filter, select);
+
+  if (data) {
+    return res.json(data);
+  } else {
+    return res.json("Could not be Found");
+  }
+});
 
 module.exports = router;
