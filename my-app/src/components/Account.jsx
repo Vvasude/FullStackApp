@@ -31,23 +31,15 @@ function Admin() {
                     "Name: " + userArr[0][i].name,
                     "Email: " + userArr[0][i].email,
                     "Role: " + userArr[0][i].role,
-                    "Created: Website Sign-in"
+                    "Account Type: Google"
                 ];
-                let button = ul.appendChild(document.createElement("button"));
-                button.value = userArr[0][i].role;
-                button.innerHTML = button.value;
-                button.addEventListener("click", (e) => 
-                {
-                  console.log(button.value); 
                 
-                }
-                 )
-
                 for (var j = 0; j < userDescription.length; j++) {
                     li.appendChild(document.createTextNode(userDescription[j]));
                     li.style.display = "";
-                    li.appendChild(document.createElement("br"));     
+                    li.appendChild(document.createElement("br"));    
                 }
+            
             }  
         });
 
@@ -66,17 +58,9 @@ function Admin() {
                 "Name: " + localUserArr[0][i].name,
                 "Email: " + localUserArr[0][i].email,
                 "Role: " + localUserArr[0][i].role,
-                "Created: Google Sign-in"
+                "Account Type: Local"
             ];
-            let button = ul.appendChild(document.createElement("button"));
-            button.value = localUserArr[0][i].role;
-            button.innerHTML = button.value;
-            button.addEventListener("click", (e) => 
-            {
-              console.log(button.value); 
-            
-            }
-             )
+          
 
             for (var j = 0; j < userDescription.length; j++) {
                 li.appendChild(document.createTextNode(userDescription[j]));
@@ -85,6 +69,10 @@ function Admin() {
             }
         }  
     });
+
+  
+
+
 }
 
 const Account = () => {
