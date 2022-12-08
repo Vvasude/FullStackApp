@@ -92,6 +92,10 @@ router.put("/update/:id", async (req, res) => {
     return res
       .status(400)
       .send({ success: false, msg: "Requested List does not exist" });
+  } else if (req.body.list_title.length == 0) {
+    return res
+      .status(400)
+      .send({ success: false, msg: "Updated Title Cannot Be Empty" });
   } else {
     const updateFields = {
       list_title: req.body.list_title,

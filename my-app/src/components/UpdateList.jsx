@@ -74,6 +74,10 @@ export default function UpdateList() {
     let formDataObject = Object.fromEntries(inputData.entries())
     convertTracks();
 
+    if(listName.length == 0){
+      alert("Updated List Title Cannot Be Empty")
+    } else {
+
     formDataObject.visibility = visibility
     formDataObject.list_trackIDS = trackNums
     formDataObject.email = atob(window.localStorage.getItem("profile"))
@@ -95,7 +99,8 @@ export default function UpdateList() {
         localStorage.setItem("list_title", '')
         localStorage.setItem("description", '')
       }
-    })    
+    })
+  }    
   };
 
   const clearTrackList = () => {
