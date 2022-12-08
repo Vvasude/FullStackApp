@@ -3,24 +3,26 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
-import Signout from './Signout'
-import {Link} from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useEffect } from 'react';
 
+//Placeholder to hold all list data to be selected from
 let options = []
 
 export default function FadeMenu() {
+  //Setting Form Variables to Update with UseState
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [value, setValue] = React.useState(options[0]);
   const [inputValue, setInputValue] = React.useState('');
 
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleDelete = () => {
     fetch('/lists/delete/' + encodeURI(value), {
       method: 'delete',
@@ -39,6 +41,7 @@ export default function FadeMenu() {
     setAnchorEl(null)
   }
 
+  //Populate Options Array with Data when component is loaded
   useEffect(() => {
     fetch('/lists/getAll/')
     .then((res) => res.json())

@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -13,25 +11,25 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'
-import TrackSearch from './TrackSearch';
 import NavBar from './NavBar';
 import { useState } from 'react';
-import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useEffect } from 'react';
 import Slider from '@mui/material/Slider';
 
 const theme = createTheme();
-let options = []
+let options = [] //Array to hold list data
 
 export default function RateList() {
+      
+  //Setting Form Variables to Update with UseState
   const navigate = useNavigate();
   const [rating, setRating] = useState('5')
   const [description, setDescription] = useState('');
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
   
-
+  //Fill options array with list data
   useEffect(() => {
     fetch('/lists/getAllPublic/')
     .then((res) => res.json())
@@ -42,6 +40,7 @@ export default function RateList() {
     })
   }, [])
   
+  //Handle Form Submission
   const handleSubmit = (event) => {
    event.preventDefault()
    const inputData = new FormData(event.currentTarget);
@@ -49,6 +48,7 @@ export default function RateList() {
    formDataObject.rating = rating
    let formDataString = JSON.stringify(formDataObject)
 
+   //Cannot have empty description with rating addition
    if(formDataObject.description.length === 0){
     alert("Must Add Description to Rating")
    } else {
@@ -59,7 +59,7 @@ export default function RateList() {
     })
     .then((res) => res.json())
     .then((data) => {
-      if(data.success === "false"){
+      if(data.success === "false"){ //If failure alert with error message
         alert(data.msg)
       } else {
         navigate("/playlists", {replace: true})

@@ -1,5 +1,6 @@
 import React from 'react'
 
+//Export PrivacyPolicy function
 export default function PrivacyPolicy() {
     return (   
         <div className = "PrivacyPolicy" >

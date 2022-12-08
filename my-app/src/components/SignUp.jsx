@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -19,7 +17,7 @@ const theme = createTheme();
 export default function SignUp() {
   const navigate = useNavigate();
 
-
+  //Handle Form Submission
   const handleSubmit = (event) => {
     event.preventDefault();
     const inputData = new FormData(event.currentTarget);
@@ -33,7 +31,7 @@ export default function SignUp() {
     })
     .then((res) => res.json())
     .then((data) => {
-      if(data.success === "false"){
+      if(data.success === "false"){ //Alert if anything goes wrong with error message
       alert(JSON.stringify(data.msg))
       } else{
         navigate("/login", {replace: true});

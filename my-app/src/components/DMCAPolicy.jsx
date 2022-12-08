@@ -1,5 +1,6 @@
 import React from 'react'
 
+//Export DMCAPolicy function
 export default function DMCAPolicy() {
     return (   
         <div className ="DMCAPolicy">

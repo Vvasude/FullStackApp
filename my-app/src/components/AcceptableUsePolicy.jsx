@@ -1,5 +1,6 @@
 import React from 'react'
 
+//Export AcceptableUsePolicy function
 export default function AcceptableUsePolicy() {
     return (   
         <div className ="AcceptableUsePolicy">
