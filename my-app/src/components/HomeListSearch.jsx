@@ -33,6 +33,7 @@ export default function HomeListSearch() {
                 var listDescription = [
                     "Name: " + listArr[0][i].list_title,
                     "Saved Tracks: " + listArr[0][i].list_trackIDS,
+                    "description: " + listArr[0][i].description,
                 ]
 
                 for (var j = 0; j < listDescription.length; j++){

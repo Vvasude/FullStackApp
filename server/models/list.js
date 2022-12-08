@@ -13,6 +13,7 @@ const listSchema = mongoose.Schema(
     },
     description: {
       type: String,
+      default: "No Description",
     },
     visibility: {
       type: String,

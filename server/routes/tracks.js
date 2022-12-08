@@ -38,6 +38,8 @@ router.get("/search/:id", async (req, res) => {
     artist_name: 1, //Pull desired fields from collection
     track_duration: 1,
     track_title: 1,
+    track_date_recorded: 1,
+
     _id: 0,
   };
 

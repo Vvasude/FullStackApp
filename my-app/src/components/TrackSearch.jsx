@@ -5,8 +5,6 @@ import TextField from '@mui/material/TextField';
 import { useState } from "react";
 import { useEffect } from "react";
 
-
-var selectedTracks = [];
 var allSearchTracks = [];
 
 export default function TrackSearch() {
@@ -59,6 +57,8 @@ export default function TrackSearch() {
                         "ID: " + trackArr[0][i].track_id,
                         "Track: " + trackArr[0][i].track_title,
                         "By: " + trackArr[0][i].artist_name,
+                        "Year: " + trackArr[0][i].track_date_recorded,
+                        "Duration: " + trackArr[0][i].track_duration
                     ];
 
                     let trackTitle = trackArr[0][i].track_title
