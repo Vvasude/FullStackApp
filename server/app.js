@@ -6,7 +6,7 @@ const { default: mongoose } = require("mongoose");
 
 //Open Server Connection on Port 3000
 const cors = require("cors");
-//app.use(cors({ origin: true }));
+app.use(cors({ origin: true }));
 mongoose.connect(process.env.REACT_APP_DATABASE_URL, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));

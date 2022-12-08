@@ -16,33 +16,58 @@ import { useNavigate } from 'react-router-dom'
 import Switch from '@mui/material/Switch';
 import TrackSearch from './TrackSearch';
 import NavBar from './NavBar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const theme = createTheme();
+let trackNums = []
 
 export default function CreateList() {
   const navigate = useNavigate();
   const [listName, setListName] = useState('')
   const [description, setDescription] = useState('')
-  var visibility = "false";
-  
+  const [visibility, setVisibility] = useState('false')
+
+  const convertTracks = () => {
+    let trackString = window.localStorage.getItem("list_trackIDS")
+    trackString = trackString.replace(/['"]+/g, '')
+    let trackStringArray = trackString.split(',')
+    for(let x = 0; x < trackStringArray.length; x++){
+      trackNums[x] = parseInt(trackStringArray[x])
+    }
+    window.localStorage.setItem("list_trackIDS", trackNums)
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const inputData = new FormData(event.currentTarget);
     let formDataObject = Object.fromEntries(inputData.entries())
+    convertTracks();
+
     formDataObject.visibility = visibility
-    formDataObject.list_trackIDS = window.localStorage.getItem("track_IDS")
+    formDataObject.list_trackIDS = trackNums
     formDataObject.email = window.localStorage.getItem("profile")
     let formDataString = JSON.stringify(formDataObject)
-    console.log(formDataString);
-
-    //When Success is true, reset localstorage saved fields for input fields
-    
+  
+    fetch("/lists/save", {
+      method: "POST",
+      headers: { "Content-type": "application/json", "Accept": "application.json"},
+      body: formDataString
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.success == "false"){
+        alert(JSON.stringify(data.msg))
+      } else { //Route back to playlists on success, clear localstorage to reset form data for next
+        navigate("/playlists", {replace: true})
+        localStorage.setItem("list_trackIDS", '')
+        localStorage.setItem("list_title", '')
+        localStorage.setItem("description", '')
+      }
+    })    
   };
 
   const clearTrackList = () => {
-    window.localStorage.setItem("track_IDS", "")
+    window.localStorage.setItem("list_trackIDS", "")
     window.location.reload();
   }
 
@@ -60,15 +85,6 @@ export default function CreateList() {
     window.localStorage.setItem("list_title", listName)
     window.localStorage.setItem("description", description)
   }
-
-  const handleChange = (e) => {
-    let isChecked = e.target.checked;
-    if(isChecked){
-      visibility = "true";
-      } else {
-        visibility = "false"
-      }
-  };
 
   return (
     <div>
@@ -132,7 +148,7 @@ export default function CreateList() {
                   id="list_trackIDS"
                   label="List Track IDs"
                   name="list_trackIDS"
-                  defaultValue={window.localStorage.getItem("track_IDS")}
+                  defaultValue={window.localStorage.getItem("list_trackIDS")}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -160,7 +176,9 @@ export default function CreateList() {
                 <FormControlLabel 
                 control={<Checkbox />} 
                 label="Public List?" 
-                onChange={handleChange}
+                onChange={(event, newVisibility) => {
+                  setVisibility(newVisibility);
+                  }}
               />
               </Grid>
             </Grid>

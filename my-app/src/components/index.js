@@ -13,3 +13,6 @@ export { default as AcceptableUsePolicy } from "./AcceptableUsePolicy";
 export { default as DMCAPolicy } from "./DMCAPolicy";
 export { default as PrivacyPolicy } from "./PrivacyPolicy";
 export { default as Policies } from "./Policies";
+export { default as UpdateList } from "./UpdateList";
+export { default as DeleteList } from "./DeleteList";
+export { default as RateList } from "./RateList";

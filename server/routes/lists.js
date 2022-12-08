@@ -17,11 +17,18 @@ router.get("/getAll/", async (req, res) => {
 //Save New List with Name, also save with tracks if desireds
 router.post("/save", async (req, res) => {
   const filter = { list_title: req.body.list_title };
+  const trackArray = req.body.list_trackIDS;
 
   //Check if name already exists in lists
   const checkExists = await list.countDocuments(filter);
   if (checkExists > 0) {
-    return res.status(404).send({ success: false, msg: "List already exists" });
+    return res
+      .status(404)
+      .send({ success: "false", msg: "List already exists" });
+  } else if (trackArray.length == 0 || trackArray.includes(null)) {
+    return res
+      .status(404)
+      .send({ success: "false", msg: "List must contain Track IDS" });
   } else {
     //Establish new object to be saved as list
     const newList = list({
@@ -29,12 +36,13 @@ router.post("/save", async (req, res) => {
       list_trackIDS: req.body.list_trackIDS,
       description: req.body.description,
       visibility: req.body.visibility,
+      email: req.body.email,
     });
     try {
       const savedList = await newList.save();
-      return res.status(200).send(savedList);
+      return res.status(200).send({ success: "true", list: savedList });
     } catch (error) {
-      return res.status(400).send({ success: false, msg: error });
+      return res.status(400).send({ success: "false", msg: error });
     }
   }
 });
@@ -52,6 +60,8 @@ router.put("/update/:id", async (req, res) => {
     const updateFields = {
       list_title: req.body.list_title,
       list_trackIDS: req.body.list_trackIDS,
+      description: req.body.description,
+      visibility: req.body.visibility,
     };
     //Insert as new list to be sent back as response
     const options = {
@@ -72,7 +82,7 @@ router.put("/update/:id", async (req, res) => {
 
 //Delete requested list if it exists
 router.delete("/delete/:id", async (req, res) => {
-  const filter = { list_title: req.params.id };
+  const filter = { list_title: decodeURI(req.params.id) };
 
   //Check if it exists within collection
   const checkExists = await list.countDocuments(filter);
@@ -95,9 +105,8 @@ router.delete("/delete/:id", async (req, res) => {
 //Search for one list based on request
 router.get("/getOne/:id", async (req, res) => {
   const filter = { list_title: req.params.id };
-  const select = { list_title: 1, list_trackIDS: 1, _id: 0 }; //Pull desired fields from collection
 
-  const data = await list.findOne(filter, select);
+  const data = await list.findOne(filter);
 
   if (data) {
     return res.status(200).send(data);

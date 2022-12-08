@@ -19,7 +19,7 @@ router.get("/credentials/", async (req, res) => {
     const filter = { email: decodedData.email };
     const foundUser = await localUser.findOne(filter);
 
-    return res.status(200).send({ success: "true", data: foundUser });
+    return res.status(200).send({ success: "true", user: foundUser });
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -103,5 +103,19 @@ router.post("/signup", async (req, res) => {
     return res.status(500).send({ success: "false", msg: error });
   }
 });
+
+
+router.get("/getAll", async (req, res) => {
+  const filter = {};
+  const select = {name: 1, email: 1, role: 1};
+
+  const data = await localUser.find(filter, select);
+      
+      if(data){
+      return res.json(data);
+  } else{
+      return res.json('Could not be Found');
+  }
+})
 
 module.exports = router;

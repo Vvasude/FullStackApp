@@ -3,6 +3,7 @@ import "./style.css"
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useState } from "react";
+import { useEffect } from "react";
 
 
 var selectedTracks = [];
@@ -12,17 +13,24 @@ export default function TrackSearch() {
     const [inputValue, setInputValue] = useState('')
 
     const reloadWindow = () => {
-        window.location.reload()
+        allSearchTracks = window.localStorage.getItem("list_trackIDS")
+        if (allSearchTracks.length == 0) {
+            alert("Must Select Track IDs")
+            window.localStorage.setItem("list_trackIDS", '')
+        } else {
+            window.location.reload()
+        }
     }
 
-    const clearStorage = () => {
-        window.localStorage.setItem("track_IDS", "")
-    }
+    useEffect(() => {
+        //Placeholder, Function to update without clearing existing values from memory
+        //allSearchTracks = window.localStorage.getItem("list_trackIDS")
+    }, [])
 
     const clearSearch = () => {
         const ul = document.getElementById('tracklist')
         //Remove All Child Elements from prev. Search before fetching new search 
-        while(ul.firstChild){ 
+        while (ul.firstChild) {
             ul.removeChild(ul.firstChild)
         }
 
@@ -31,7 +39,7 @@ export default function TrackSearch() {
     //Function to fetch search request and display results accordingly
     const fetchTracks = () => {
         let input = inputValue;
-        if(input.length == 0){
+        if (input.length == 0) {
             alert("Invalid Search Query")
         }
         var trackArr = [];
@@ -53,16 +61,17 @@ export default function TrackSearch() {
                         "By: " + trackArr[0][i].artist_name,
                     ];
 
-                    let trackTitle = trackArr[0][i].track_title
-                    let ytStringArr = trackTitle.split(' ')
-                    let searchURL = ytStringArr.join('+')
-                    let str = searchURL.replace(/\s/g, '');
+
 
                     for (var j = 0; j < trackDescription.length; j++) {
                         li.appendChild(document.createTextNode(trackDescription[j]));
                         li.style.display = "";
                         li.appendChild(document.createElement("br"));
                     }
+                    let trackTitle = trackArr[0][i].track_title
+                    let ytStringArr = trackTitle.split(' ')
+                    let searchURL = ytStringArr.join('+')
+                    let str = searchURL.replace(/\s/g, '');
 
                     let checkBox = ul.appendChild(document.createElement("INPUT"))
                     checkBox.type = "image";
@@ -74,8 +83,7 @@ export default function TrackSearch() {
                         let addTrack = e.currentTarget.value;
                         allSearchTracks.push(addTrack)
                         allSearchTracks = [...new Set(allSearchTracks)]
-                        console.log(JSON.stringify(allSearchTracks))
-                        window.localStorage.setItem("track_IDS", allSearchTracks)
+                        window.localStorage.setItem("list_trackIDS", allSearchTracks)
                     })
 
                     let p = ul.appendChild(document.createElement("p"))
@@ -102,19 +110,18 @@ export default function TrackSearch() {
 
                 }
             });
-        }
-    
+    }
+
     return (
         <div>
-            <TextField 
-                id="standard-basic" 
-                label="Search Tracks" 
-                variant="standard" 
+            <TextField
+                id="standard-basic"
+                label="Search Tracks"
+                variant="standard"
                 onChange={(e) => setInputValue(e.target.value)}
-            />            
+            />
             <Button variant="contained" onClick={clearSearch}>Search</Button>
             <Button variant="outlined" onClick={reloadWindow}>Confirm Tracks </Button>
-            <Button variant="outlined" onClick={clearStorage}>Clear Selection</Button>
 
             {/* Button to start dynamic add /}
             {/ Dynamically add list */}

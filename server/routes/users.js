@@ -13,7 +13,7 @@ router.get("/credentials", async (req, res) => {
     const filter = { email: decodedKey.email };
     const foundUser = await user.findOne(filter);
 
-    return res.status(200).send({ success: "true", data: foundUser });
+    return res.status(200).send({ success: "true", user: foundUser });
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -60,7 +60,7 @@ const newUserData = async (decodedKey, req, res) => {
 
   try {
     const savedUser = await newUser.save();
-    res.status(200).send({ user: savedUser });
+    res.status(200).send({ success: true, user: savedUser });
   } catch (error) {
     res.status(400).send({ success: false, msg: error });
   }
@@ -80,10 +80,23 @@ const updateUserData = async (decodedKey, req, res) => {
       { authTime: decodedKey.auth_time },
       options
     );
-    res.status(200).send({ user: updatedUser });
+    res.status(200).send({ success: true, user: updatedUser });
   } catch (error) {
     res.status(400).send({ success: false, msg: error });
   }
 };
+
+router.get("/getAll", async (req, res) => {
+  const filter = {};
+  const select = {name: 1, email: 1, role: 1};
+
+  const data = await user.find(filter, select);
+      
+      if(data){
+      return res.json(data);
+  } else{
+      return res.json('Could not be Found');
+  }
+})
 
 module.exports = router;

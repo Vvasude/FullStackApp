@@ -19,6 +19,7 @@ export default function SignInSide({setAuth}) {
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
+  var loginHeader = new Headers();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -52,7 +53,30 @@ export default function SignInSide({setAuth}) {
         firebaseAuth.onAuthStateChanged((userCredentials) => {
           if (userCredentials) { //If exists, redirect to homepage
             userCredentials.getIdToken().then((token) => {
-              localStorage.setItem('profile', userCredentials.email)
+              loginHeader.append("Accept", "application/json");
+              loginHeader.append("Authentication", "Bearer Token");
+              loginHeader.append("Authorization", "Bearer " + token);
+
+              fetch("/users/login/", {
+                method: "GET",
+                headers: loginHeader,
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data.success == false) {
+                    alert(data.msg);
+                  }
+                });
+
+                fetch("/users/credentials", {
+                  method: "GET",
+                  headers: loginHeader,
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                  window.localStorage.setItem('role', data.user.role)
+                })
+              window.localStorage.setItem('profile', userCredentials.email)
             });            
             navigate("/home", {replace: true});
           } 
