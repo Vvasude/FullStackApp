@@ -2,9 +2,7 @@ import React from 'react'
 import Button from '@mui/material/Button'
 
 export default function HomeListSearch() {
-    const updateSelection = () => {
-    }
-
+    //Clear Search Upon Searching Again
     const clearSearch = () => {
         const ul = document.getElementById('playlist')
         //Remove All Child Elements from prev. Search before fetching new search 
@@ -14,7 +12,7 @@ export default function HomeListSearch() {
 
         fetchLists();
     }
-
+    //Fetch List Data based on Search Query
     const fetchLists = () => {
         var listArr = []
         const ul = document.getElementById('playlist')
@@ -27,9 +25,11 @@ export default function HomeListSearch() {
             JSON.stringify(listArr);
             console.log(listArr)
             for (let i = 0; i < listArr[0].length; i++){
-                var li = document.createElement("li")
+                var li = document.createElement("li") //Add listitem for each track in search reuslt
                 ul.appendChild(li)
 
+                //Array holding description for each list
+                //With respective formatting
                 var listDescription = [
                     "Name: " + listArr[0][i].list_title,
                     "Saved Tracks: " + listArr[0][i].list_trackIDS,

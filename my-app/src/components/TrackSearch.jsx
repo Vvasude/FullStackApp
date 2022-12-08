@@ -5,11 +5,13 @@ import TextField from '@mui/material/TextField';
 import { useState } from "react";
 import { useEffect } from "react";
 
-var allSearchTracks = [];
+var allSearchTracks = []; //Variable to hold query track data
 
 export default function TrackSearch() {
+    //Setting Input Variables to Update with UseState
     const [inputValue, setInputValue] = useState('')
 
+    //Cannot Search Empty
     const reloadWindow = () => {
         allSearchTracks = window.localStorage.getItem("list_trackIDS")
         if(allSearchTracks.length == 0){
@@ -19,12 +21,7 @@ export default function TrackSearch() {
         window.location.reload()
         }
     }
-
-    useEffect(() => {
-        //Placeholder, Function to update without clearing existing values from memory
-        //allSearchTracks = window.localStorage.getItem("list_trackIDS")
-    }, [])
-
+    //Clear results before rendering next search query
     const clearSearch = () => {
         const ul = document.getElementById('tracklist')
         //Remove All Child Elements from prev. Search before fetching new search 
@@ -53,6 +50,7 @@ export default function TrackSearch() {
                     var li = document.createElement("li");
                     ul.appendChild(li);
 
+                    //Array holding track data with respective fields
                     var trackDescription = [
                         "ID: " + trackArr[0][i].track_id,
                         "Track: " + trackArr[0][i].track_title,
@@ -61,6 +59,7 @@ export default function TrackSearch() {
                         "Duration: " + trackArr[0][i].track_duration
                     ];
 
+                    //YT Search String parsing and formatting
                     let trackTitle = trackArr[0][i].track_title
                     let ytStringArr = trackTitle.split(' ')
                     let searchURL = ytStringArr.join('+')
@@ -72,6 +71,7 @@ export default function TrackSearch() {
                         li.appendChild(document.createElement("br"));
                     }
 
+                    //Add to Playlist icon with eventlistener and value
                     let checkBox = ul.appendChild(document.createElement("INPUT"))
                     checkBox.type = "image";
                     checkBox.src = 'https://cdn.iconscout.com/icon/free/png-256/add-playlist-1779822-1513987.png'
@@ -79,17 +79,20 @@ export default function TrackSearch() {
                     checkBox.style.height = "25px"
                     checkBox.value = trackArr[0][i].track_id;
                     checkBox.addEventListener("click", (e) => {
+                        //Function to push input value to array
                         let addTrack = e.currentTarget.value;                        
                         allSearchTracks.push(addTrack)
                         allSearchTracks = [...new Set(allSearchTracks)]
                         window.localStorage.setItem("list_trackIDS", allSearchTracks)
                     })
 
+                    //Add to Playlist Label
                     let p = ul.appendChild(document.createElement("p"))
                     p.innerHTML = "Add to Playlist: "
                     p.style.paddingBottom = "1px"
                     p.appendChild(checkBox)
 
+                    //Adding Youtube Button to redirect to youtube with image formatting
                     let inpt = li.appendChild(document.
                         createElement("INPUT"));
                     inpt.type = "image"
@@ -99,14 +102,11 @@ export default function TrackSearch() {
                     inpt.style.borderRadius = '5px'
                     inpt.style.display = 'inline-block'
                     inpt.stringURL = str //Set btm params to be used in arrow function
-                    inpt.addEventListener("click", (e) => { //Search on Youtube
+                    inpt.addEventListener("click", (e) => { 
+                        //Search on Youtube in New Tab
                         let str = e.currentTarget.stringURL;
                         window.open("https://www.youtube.com/results?search_query=" + str, '_blank', 'noopener,noreferrer')
                     });
-
-
-                    //li.appendChild(document.createElement("br"));
-
                 }
             });
         }

@@ -20,18 +20,21 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { useEffect } from 'react';
 
 const theme = createTheme();
-let trackNums = []
+let trackNums = [] //Array to hold selected tracks
 
-let options = []
+let options = [] //Array to hold possible list selections
 
 export default function UpdateList() {
   const navigate = useNavigate();
+
+    //Setting Form Variables to Update with UseState
   const [listName, setListName] = useState('');
   const [description, setDescription] = useState('');
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
   const [visibility, setVisibility] = useState('false')
 
+  //Generate List Data to be selectable
   useEffect(() => {
     fetch('/lists/getAll/')
     .then((res) => res.json())
@@ -42,6 +45,7 @@ export default function UpdateList() {
     })
   }, [])
 
+  //Fetch Track Data to populate list field accordingly
   const populateTracks = () => {
     window.localStorage.setItem("list_title", value)
 
@@ -58,6 +62,7 @@ export default function UpdateList() {
     })
   }
 
+  //Format trackData to be stored locally
   const convertTracks = () => {
     let trackString = window.localStorage.getItem("list_trackIDS")
     trackString = trackString.replace(/['"]+/g, '')
@@ -68,11 +73,17 @@ export default function UpdateList() {
     window.localStorage.setItem("list_trackIDS", trackNums)
   }
   
+  //Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     const inputData = new FormData(event.currentTarget);
     let formDataObject = Object.fromEntries(inputData.entries())
     convertTracks();
+
+    //Alert if updated list name is empty
+    if(listName.length == 0){
+      alert("Updated List Title Cannot Be Empty")
+    } else {
 
     formDataObject.visibility = visibility
     formDataObject.list_trackIDS = trackNums
@@ -89,15 +100,19 @@ export default function UpdateList() {
     .then((data) => {
       if(data.success === "false"){
         alert(JSON.stringify(data.msg))
-      } else { //Route back to playlists on success, clear localstorage to reset form data for next
+      } else { 
+        //Route back to playlists on success, clear localstorage to reset form data for next
         navigate("/playlists", {replace: true})
         localStorage.setItem("list_trackIDS", '')
         localStorage.setItem("list_title", '')
         localStorage.setItem("description", '')
       }
-    })    
+    })
+  }    
   };
 
+
+  //Clear selected tracks
   const clearTrackList = () => {
     window.localStorage.setItem("list_trackIDS", "")
     window.location.reload();

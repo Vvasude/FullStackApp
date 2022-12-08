@@ -19,6 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function GuestPlaylist() {
     const navigate = useNavigate();
 
+    //On Page Load, redirect depending on users login status (auth)
     useEffect(() => {
         let loginStatus = atob(window.localStorage.getItem("auth"))
         if(loginStatus === "true"){

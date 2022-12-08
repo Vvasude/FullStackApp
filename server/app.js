@@ -16,15 +16,14 @@ app.listen(4000, () => console.log("Server Started on 4000"));
 
 app.use(express.json()); //JSON data for backend
 
-app.get("/", (req, res) => {
-  return res.json("Hello World");
-});
-
+//Handle Routes for Gmail Authentication
 const authRoutes = require("./routes/users");
 app.use("/users/", authRoutes);
 
+//Handle Routes for Local Authentication
 const localUserRoutes = require("./routes/localUsers");
 app.use("/localusers", localUserRoutes);
+
 //Genre Routes
 const genresRoutes = require("./routes/genres");
 app.use("/genres/", genresRoutes);

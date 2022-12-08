@@ -10,9 +10,10 @@ var selectedTracks = [];
 var allSearchTracks = [];
 
 export default function HomeTrackSearch() {
+      //Setting Form Variables to Update with UseState
     const [inputValue, setInputValue] = useState('')
 
-
+    //Clear Search Upon Searching Again
     const clearSearch = () => {
         const ul = document.getElementById('tracklist')
         //Remove All Child Elements from prev. Search before fetching new search 
@@ -41,6 +42,7 @@ export default function HomeTrackSearch() {
                     var li = document.createElement("li");
                     ul.appendChild(li);
 
+                    //Array holding track description for each result
                     var trackDescription = [
                         "ID: " + trackArr[0][i].track_id,
                         "Track: " + trackArr[0][i].track_title,

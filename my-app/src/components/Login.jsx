@@ -9,17 +9,17 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import GoogleButton from 'react-google-button'
-import { useState } from 'react';
 import { app } from '../config/firebase.config'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import {useNavigate} from 'react-router-dom'
 import { useEffect } from 'react';
 
 export default function SignInSide({setAuth}) {
+  //Declaring Firebase Elements
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
-  var loginHeader = new Headers();
+  var loginHeader = new Headers(); //Header object to be sent with fetch request and token
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,21 +34,23 @@ export default function SignInSide({setAuth}) {
     })
     .then((res) => res.json())
     .then((data) => {
-      if(data.success === "false"){
+      if(data.success === "false"){ //Alert with error message if failure
       alert(JSON.stringify(data.msg))
       } else{
         navigate("/home", {replace: true});
-        localStorage.setItem('profile', btoa(data.user.email))
+        localStorage.setItem('profile', btoa(data.user.email)) //encode 
       }
     })
   };
 
+  //Function to authenticate google signin button
   const googleSignIn = async () => {
     await signInWithPopup(firebaseAuth, provider)
     .then((userCredentials) => {
       if(userCredentials){ //If user credentials already exist, set auth true
         setAuth(true);
         window.localStorage.setItem("auth", btoa("true"));
+
 
         firebaseAuth.onAuthStateChanged((userCredentials) => {
           if (userCredentials) { //If exists, redirect to homepage
@@ -57,7 +59,7 @@ export default function SignInSide({setAuth}) {
               loginHeader.append("Authentication", "Bearer Token");
               loginHeader.append("Authorization", "Bearer " + token);
 
-              fetch("/users/login/", {
+              fetch("/users/login/", { //fetch for user data
                 method: "GET",
                 headers: loginHeader,
               })
@@ -68,14 +70,16 @@ export default function SignInSide({setAuth}) {
                   }
                 });
 
-                fetch("/users/credentials", {
+                fetch("/users/credentials", { //fetch for user role
                   method: "GET",
                   headers: loginHeader,
                 })
                 .then((res) => res.json())
                 .then((data) => {
+                  //Set Role
                   window.localStorage.setItem('role', btoa(data.user.role))
                 })
+                //Set Email
               window.localStorage.setItem('profile', btoa(userCredentials.email))
             });      
             navigate("/home", {replace: true});
@@ -88,6 +92,7 @@ export default function SignInSide({setAuth}) {
 
   useEffect(() => { //When entering login page, sign out user
     window.localStorage.setItem("auth", btoa("false"))
+    //Update Logged In Account with Message
     window.localStorage.setItem("profile", btoa("You are Not Logged In"))
 
   }, [])
