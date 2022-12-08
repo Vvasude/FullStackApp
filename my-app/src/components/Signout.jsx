@@ -34,6 +34,7 @@ export default function AlertDialogSlide() {
     firebaseAuth.signOut()
     .then(() => {
       window.localStorage.setItem("auth", btoa("false"));
+      window.localStorage.setItem("profile", btoa("You are Not Logged In"))
     }).catch((error) => console.log(error));
     
     navigate("/login", {replace : true})

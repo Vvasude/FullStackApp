@@ -7,6 +7,7 @@ import {
   Login,
   SignUp,
   Playlist,
+  GuestPlaylist,
   AboutUs,
   CreateList,
   UpdateList,
@@ -58,11 +59,12 @@ const App = () => {
         <Route path="/*" element={<Home />} />
         <Route path="/Signup" element={<SignUp setAuth={false} />} />
         <Route path="/Account" element={<Account />} />
-        <Route path="/playlists" element={<Playlist />} />
+        <Route path="/playlists" element={<GuestPlaylist />} />
+        <Route path="/auth/playlists" element={<Playlist />} />
         <Route path="/Aboutus" element={<AboutUs />} />
-        <Route path="/Createlist" element={<CreateList />} />
-        <Route path="/Updatelist" element={<UpdateList />} />
-        <Route path="/Ratelist" element={<RateList />} />
+        <Route path="/auth/Createlist" element={<CreateList />} />
+        <Route path="/auth/Updatelist" element={<UpdateList />} />
+        <Route path="/auth/Ratelist" element={<RateList />} />
       </Routes>
     </div>
   );

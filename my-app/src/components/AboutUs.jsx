@@ -1,12 +1,20 @@
 import React from 'react'
+import Button from '@mui/material/Button';
 
 import { Typography } from '@mui/material';
 import './startPage.css'
 
 export default function AboutUs() {
+    const userEmail = atob(window.localStorage.getItem("profile"))
 
     return (
-        <div className="test">
+        <div className="test" text-align="center">
+            <Button variant="contained" href="login">
+                    Go to Login Page
+                </Button>
+            <Typography>
+                Logged In As: {userEmail}
+            </Typography>
             <div className="about-section">
                 <h1>About Us</h1>
                 <p>Online Full Stack MusicApp</p>

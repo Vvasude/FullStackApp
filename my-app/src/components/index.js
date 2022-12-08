@@ -16,3 +16,4 @@ export { default as RateList } from "./RateList";
 
 export { default as HomeListSearch } from "./HomeListSearch";
 export { default as HomeTrackSearch } from "./HomeTrackSearch";
+export { default as GuestPlaylist } from "./GuestPlaylist";

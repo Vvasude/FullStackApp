@@ -20,7 +20,7 @@ export default function ListSearch() {
         const ul = document.getElementById('playlist')
         ul.innerhtml = ""
 
-        fetch('/lists/getAll/')
+        fetch('/lists/getLimitAny/')
         .then((res) => res.json())
         .then((data) => {
             listArr.push(data)

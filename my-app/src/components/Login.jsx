@@ -86,10 +86,10 @@ export default function SignInSide({setAuth}) {
 
   }
 
-  useEffect(() => { //Redirect to homepage if auth state is true
-    if (atob(window.localStorage.getItem("auth")) === "true") {
-      //navigate("/home", {replace: true})
-    }
+  useEffect(() => { //When entering login page, sign out user
+    window.localStorage.setItem("auth", btoa("false"))
+    window.localStorage.setItem("profile", btoa("You are Not Logged In"))
+
   }, [])
 
 
@@ -164,9 +164,14 @@ export default function SignInSide({setAuth}) {
                 sx={{ mt: 3, mb: 3 }}
                 justifyContent="center"
               >
-                <Grid item>
+                <Grid item paddingBottom={'10px'}>
                   <Link href='signup' variant="body2">
                     {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href='home' variant="body2">
+                    {"Return to About Us Page"}
                   </Link>
                 </Grid>
               </Grid>

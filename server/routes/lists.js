@@ -3,10 +3,21 @@ const list = require("../models/list");
 const router = require("express").Router();
 
 //Get All Lists
-router.get("/getAll/", async (req, res) => {
+router.get("/getLimitAny/", async (req, res) => {
   const filter = {};
 
   const data = await list.find(filter).limit(20);
+  if (data.length > 0) {
+    return res.status(200).send(data);
+  } else {
+    return res.status(400).send({ success: false, msg: "Nothing Found" });
+  }
+});
+
+router.get("/getAll/", async (req, res) => {
+  const filter = {};
+
+  const data = await list.find(filter);
   if (data.length > 0) {
     return res.status(200).send(data);
   } else {

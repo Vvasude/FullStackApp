@@ -72,6 +72,11 @@ export default function FadeMenu() {
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
+        PaperProps={{
+          style: {
+            height: '50ch',
+          },
+        }}
       >
         <MenuItem fullWidth>
           <Autocomplete

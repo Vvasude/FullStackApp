@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from "react";
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -12,6 +12,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import { DeleteList } from '.';
+import { useNavigate } from 'react-router-dom';
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -22,6 +24,14 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Playlist() {
+  const navigate = useNavigate();
+
+    useEffect(() => {
+        let loginStatus = atob(window.localStorage.getItem("auth"))
+        if(loginStatus === "false"){
+            navigate("/playlists")
+        }
+    }, [])
   return (
     <div>
     <NavBar />
